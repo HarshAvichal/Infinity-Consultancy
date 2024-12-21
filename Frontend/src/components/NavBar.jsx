@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Lottie from "react-lottie";
-import infinityAnimation from "../assets/lottieAnimations/infinity-animation.json";
+import infinityAnimation from "../assets/lottieAnimations/Infinity-animation.json";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
