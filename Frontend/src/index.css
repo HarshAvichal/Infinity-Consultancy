@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+#root {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 24px;
+  }
+  p {
+    font-size: 14px;
+  }
+}
+@keyframes impactfulZoom {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px gray;
+  }
+}
+
+.animate-impactful {
+  animation: impactfulZoom 5s ease-in-out infinite;
+}
+
+@keyframes zoom {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.animate-zoom-1 {
+  animation: zoom 3s infinite ease-in-out 0s;
+}
+
+.animate-zoom-2 {
+  animation: zoom 3s infinite ease-in-out 0.3s;
+}
+
+.animate-zoom-3 {
+  animation: zoom 3s infinite ease-in-out 0.6s;
+}
+
+.animate-zoom-4 {
+  animation: zoom 3s infinite ease-in-out 0.9s;
+}
+
+.animate-zoom-5 {
+  animation: zoom 3s infinite ease-in-out 1.2s;
+}
+
+.animate-zoom-6 {
+  animation: zoom 3s infinite ease-in-out 1.5s;
+}
