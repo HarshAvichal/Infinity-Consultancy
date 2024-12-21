@@ -9,8 +9,15 @@ config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+
+const allowedOrigins = [
+  "https://infinity-consultancy-ng.vercel.app/", // Replace with your actual frontend URL
+];
+
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: allowedOrigins,
+}));
 app.use(express.json());
 
 // Validation Helper Functions

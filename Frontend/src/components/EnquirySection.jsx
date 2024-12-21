@@ -71,7 +71,7 @@ const EnquirySection = () => {
 
     // Send email request
     try {
-      const response = await axios.post("http://localhost:5000/send-email", formData);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/send-email`, formData);
       toast.success(response.data.message || "Email sent successfully!", {
         position: "top-right",
         autoClose: 3000,
