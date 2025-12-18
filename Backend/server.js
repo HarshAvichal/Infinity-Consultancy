@@ -8,6 +8,9 @@ config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Trust the proxy (needed for accurate rate limiting on platforms like Vercel/Render)
+app.set('trust proxy', 1);
+
 // Security Middleware (Manual Implementation of common headers)
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
