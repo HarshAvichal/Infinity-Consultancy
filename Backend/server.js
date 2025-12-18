@@ -126,20 +126,23 @@ app.post("/send-email", rateLimiter, (req, res) => {
     return res.status(500).json({ success: false, message: "Server configuration error." });
   }
 
-  // Nodemailer Transporter with timeout and logging to prevent hanging
+  // Nodemailer Transporter - Final Cloud-Optimized Configuration
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 465,
-    secure: true,
+    port: 587,
+    secure: false, // false for STARTTLS
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS?.replace(/\s/g, ""),
     },
-    connectionTimeout: 15000,
-    greetingTimeout: 15000,
-    socketTimeout: 20000,
-    logger: true,
-    debug: true
+    tls: {
+      // Essential for bypassing certain cloud firewall restrictions
+      rejectUnauthorized: false,
+      minVersion: "TLSv1.2"
+    },
+    connectionTimeout: 20000,
+    greetingTimeout: 20000,
+    socketTimeout: 30000
   });
 
   // Mail Options
