@@ -104,61 +104,9 @@ const EnquirySection = () => {
           </p>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-16 items-start">
-          {/* Contact Info Card */}
-          <div className="w-full lg:w-1/3 space-y-8">
-            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl space-y-8">
-              <h3 className="text-2xl font-bold text-white mb-6">Contact Information</h3>
-              
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-lightBlue/20 rounded-xl flex items-center justify-center text-lightBlue shrink-0">
-                  <FontAwesomeIcon icon={faPhone} />
-                </div>
-                <div>
-                  <p className="text-gray-400 text-sm">Call Us</p>
-                  <a href="tel:8460818184" className="text-white font-semibold hover:text-lightBlue transition-colors block">8460818184</a>
-                  <a href="tel:9375152535" className="text-white font-semibold hover:text-lightBlue transition-colors block">9375152535</a>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-greenLight/20 rounded-xl flex items-center justify-center text-greenLight shrink-0">
-                  <FontAwesomeIcon icon={faEnvelope} />
-                </div>
-                <div>
-                  <p className="text-gray-400 text-sm">Email Us</p>
-                  <a href="mailto:nevil04@gmail.com" className="text-white font-semibold hover:text-lightBlue transition-colors block">nevil04@gmail.com</a>
-                  <a href="mailto:infinitygst04@gmail.com" className="text-white font-semibold hover:text-lightBlue transition-colors block">infinitygst04@gmail.com</a>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center text-purple-400 shrink-0">
-                  <FontAwesomeIcon icon={faLocationDot} />
-                </div>
-                <div>
-                  <p className="text-gray-400 text-sm">Visit Us</p>
-                  <p className="text-white font-semibold leading-relaxed">
-                    C-50, Shantinagar Township, Bilimora(W) - 396321
-                  </p>
-                  <p className="text-gray-400 text-xs mt-1 italic">Branch: Vapi | Surat</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Business Hours */}
-            <div className="bg-gradient-to-br from-lightBlue/20 to-transparent p-8 rounded-3xl border border-lightBlue/20">
-              <h4 className="text-white font-bold mb-4">Business Hours</h4>
-              <ul className="space-y-2">
-                <li className="flex justify-between text-sm"><span className="text-gray-400">Mon - Fri:</span> <span className="text-white">9:00 AM - 7:00 PM</span></li>
-                <li className="flex justify-between text-sm"><span className="text-gray-400">Saturday:</span> <span className="text-white">10:00 AM - 4:00 PM</span></li>
-                <li className="flex justify-between text-sm"><span className="text-gray-400">Sunday:</span> <span className="text-red-400">Closed</span></li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Enquiry Form Card */}
-          <div className="w-full lg:w-2/3 bg-white p-8 md:p-12 rounded-3xl shadow-2xl">
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
+          {/* Enquiry Form Card - First on Mobile */}
+          <div className="w-full lg:w-2/3 bg-white p-6 md:p-12 rounded-3xl shadow-2xl order-1 lg:order-2">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
@@ -237,6 +185,85 @@ const EnquirySection = () => {
                 )}
               </button>
             </form>
+          </div>
+
+          {/* Contact Info Side - Below Form on Mobile */}
+          <div className="w-full lg:w-1/3 space-y-6 md:space-y-8 order-2 lg:order-1">
+            {/* Quick Action Grid for Mobile */}
+            <div className="grid grid-cols-3 gap-4 lg:hidden">
+              <a href="tel:8460818184" className="bg-white/5 p-4 rounded-2xl flex flex-col items-center gap-2 border border-white/10">
+                <FontAwesomeIcon icon={faPhone} className="text-lightBlue" />
+                <span className="text-white text-[10px] font-bold uppercase">Call</span>
+              </a>
+              <a href="mailto:nevil04@gmail.com" className="bg-white/5 p-4 rounded-2xl flex flex-col items-center gap-2 border border-white/10">
+                <FontAwesomeIcon icon={faEnvelope} className="text-greenLight" />
+                <span className="text-white text-[10px] font-bold uppercase">Mail</span>
+              </a>
+              <a href="https://maps.google.com/?q=Infinity+Consultancy+Bilimora" target="_blank" rel="noreferrer" className="bg-white/5 p-4 rounded-2xl flex flex-col items-center gap-2 border border-white/10">
+                <FontAwesomeIcon icon={faLocationDot} className="text-purple-400" />
+                <span className="text-white text-[10px] font-bold uppercase">Map</span>
+              </a>
+            </div>
+
+            {/* Detailed Contact Info Card */}
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-6 md:p-8 rounded-3xl space-y-6 md:space-y-8">
+              <h3 className="text-xl md:text-2xl font-bold text-white mb-2 md:mb-6">Contact Information</h3>
+              
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-lightBlue/20 rounded-xl flex items-center justify-center text-lightBlue shrink-0">
+                  <FontAwesomeIcon icon={faPhone} />
+                </div>
+                <div>
+                  <p className="text-gray-400 text-xs md:text-sm">Call Us</p>
+                  <div className="space-y-1">
+                    <a href="tel:8460818184" className="text-white font-semibold hover:text-lightBlue transition-colors block text-sm md:text-base">8460818184</a>
+                    <a href="tel:9375152535" className="text-white font-semibold hover:text-lightBlue transition-colors block text-sm md:text-base">9375152535</a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-greenLight/20 rounded-xl flex items-center justify-center text-greenLight shrink-0">
+                  <FontAwesomeIcon icon={faEnvelope} />
+                </div>
+                <div>
+                  <p className="text-gray-400 text-xs md:text-sm">Email Us</p>
+                  <div className="space-y-1">
+                    <a href="mailto:nevil04@gmail.com" className="text-white font-semibold hover:text-lightBlue transition-colors block text-sm md:text-base">nevil04@gmail.com</a>
+                    <a href="mailto:infinitygst04@gmail.com" className="text-white font-semibold hover:text-lightBlue transition-colors block text-sm md:text-base">infinitygst04@gmail.com</a>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-purple-500/20 rounded-xl flex items-center justify-center text-purple-400 shrink-0">
+                  <FontAwesomeIcon icon={faLocationDot} />
+                </div>
+                <div>
+                  <p className="text-gray-400 text-xs md:text-sm">Visit Us</p>
+                  <p className="text-white font-semibold leading-relaxed text-sm md:text-base">
+                    C-50, Shantinagar Township, Bilimora(W) - 396321
+                  </p>
+                  <p className="text-gray-400 text-[10px] md:text-xs mt-1 italic">Branch: Vapi | Surat</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Business Hours */}
+            <div className="bg-gradient-to-br from-lightBlue/20 to-transparent p-6 md:p-8 rounded-3xl border border-lightBlue/20">
+              <div className="flex items-center justify-between lg:block mb-4">
+                <h4 className="text-white font-bold text-sm md:text-base">Business Hours</h4>
+                <p className="text-white text-xs flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-greenLight animate-pulse"></span>
+                  Open Now
+                </p>
+              </div>
+              <ul className="space-y-2">
+                <li className="flex justify-between text-xs md:text-sm"><span className="text-gray-400">Mon - Fri:</span> <span className="text-white">9:00 AM - 7:00 PM</span></li>
+                <li className="flex justify-between text-xs md:text-sm"><span className="text-gray-400">Saturday:</span> <span className="text-white">10:00 AM - 4:00 PM</span></li>
+                <li className="flex justify-between text-xs md:text-sm"><span className="text-gray-400">Sunday:</span> <span className="text-red-400">Closed</span></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

@@ -35,15 +35,15 @@ const Navbar = () => {
         scrolled ? "bg-deepBlue/80 backdrop-blur-md py-2 shadow-lg" : "bg-deepBlue py-4"
       }`}
     >
-      <div className="w-full max-w-[1200px] mx-auto flex items-center justify-between px-6">
+      <div className="relative z-50 w-full max-w-[1200px] mx-auto flex items-center justify-between px-4 md:px-6">
         <div className="flex items-center gap-1">
           {/* Infinity Consultancy Text */}
-          <a href="/" className="group flex items-center gap-2 cursor-pointer">
-            <span className="text-white text-xl md:text-2xl font-extrabold tracking-tight group-hover:text-lightBlue transition-colors">
+          <a href="/" className="group flex items-center gap-1 md:gap-2 cursor-pointer">
+            <span className="text-white text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight group-hover:text-lightBlue transition-colors whitespace-nowrap">
               INFINITY <span className="text-lightBlue group-hover:text-white">CONSULTANCY</span>
             </span>
             {/* Infinity Animation */}
-            <div className="w-16 h-16 -ml-2">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 -ml-1 md:-ml-2">
               <Lottie options={infinityOptions} />
             </div>
           </a>

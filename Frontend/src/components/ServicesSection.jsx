@@ -70,24 +70,24 @@ const ServicesSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
           {services.map((service, index) => (
             <div 
               key={index}
-              className="group bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 flex flex-col items-center text-center"
+              className="group bg-white p-4 md:p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 flex flex-col items-center text-center"
             >
-              <div className={`w-24 h-24 ${service.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 p-4`}>
+              <div className={`w-16 h-16 md:w-24 md:h-24 ${service.color} rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-500 p-2 md:p-4`}>
                 <img
                   src={service.image}
                   alt={service.title}
                   className="w-full h-full object-contain"
                 />
               </div>
-              <h3 className="text-xl font-bold text-deepBlueHead mb-3">{service.title}</h3>
-              <p className="text-grayText leading-relaxed">
+              <h3 className="text-sm md:text-xl font-bold text-deepBlueHead mb-2 md:mb-3 leading-tight">{service.title}</h3>
+              <p className="text-xs md:text-lg text-grayText leading-relaxed line-clamp-3 md:line-clamp-none">
                 {service.description}
               </p>
-              <div className="mt-6 flex items-center gap-2 text-lightBlue font-bold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="mt-4 hidden md:flex items-center gap-2 text-lightBlue font-bold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 Learn More <span>→</span>
               </div>
             </div>

@@ -15,25 +15,25 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative bg-deepBlue min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section className="relative bg-deepBlue min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-12 md:pt-20 md:pb-0">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-lightBlue/10 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-greenLight/10 rounded-full blur-[120px]"></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] md:w-[40%] md:h-[40%] bg-lightBlue/10 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] md:w-[40%] md:h-[40%] bg-greenLight/10 rounded-full blur-[120px]"></div>
       </div>
 
       <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between z-10 space-y-12 md:space-y-0">
         {/* Left Section */}
-        <div className="w-full md:w-1/2 space-y-8 text-center md:text-left">
+        <div className="w-full md:w-1/2 space-y-6 md:space-y-8 text-center md:text-left">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-            <div className="inline-block px-4 py-1 rounded-full bg-lightBlue/10 border border-lightBlue/20 text-lightBlue font-semibold text-sm animate-pulse">
+            <div className="inline-block px-4 py-1 rounded-full bg-lightBlue/10 border border-lightBlue/20 text-lightBlue font-semibold text-xs md:text-sm animate-pulse">
               Trusted Financial Partners
             </div>
           </div>
           
-          <h1 className="text-white font-extrabold text-4xl md:text-6xl leading-[1.1] tracking-tight">
+          <h1 className="text-white font-extrabold text-3xl sm:text-4xl md:text-6xl leading-[1.2] md:leading-[1.1] tracking-tight">
             Expert <span className="text-lightBlue">Tax Guidance</span> <br />
-            <span className="text-3xl md:text-5xl opacity-90">
+            <span className="text-2xl sm:text-3xl md:text-5xl opacity-90">
               for Your{" "}
               <ReactTyped
                 strings={["Financial Journey", "Business Growth", "Success"]}
@@ -45,7 +45,7 @@ const HeroSection = () => {
             </span>
           </h1>
 
-          <p className="text-grayish/80 text-lg md:text-xl max-w-xl leading-relaxed">
+          <p className="text-grayish/80 text-base md:text-xl max-w-xl mx-auto md:mx-0 leading-relaxed">
             From Payments to Payouts, We've Got You Covered. Our comprehensive
             financial services ensure every aspect of your finances is managed
             with expertise and precision.
