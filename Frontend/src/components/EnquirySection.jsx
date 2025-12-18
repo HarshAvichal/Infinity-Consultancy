@@ -116,7 +116,7 @@ const EnquirySection = () => {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    placeholder="John"
+                    placeholder="Rahul"
                     className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all"
                   />
                 </div>
@@ -127,7 +127,7 @@ const EnquirySection = () => {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    placeholder="Doe"
+                    placeholder="Sharma"
                     className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all"
                   />
                 </div>
@@ -141,7 +141,7 @@ const EnquirySection = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="john@example.com"
+                    placeholder="rahul@example.com"
                     className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all"
                   />
                 </div>
@@ -152,7 +152,7 @@ const EnquirySection = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="1234567890"
+                    placeholder="9876543210"
                     className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all"
                   />
                 </div>
@@ -165,7 +165,7 @@ const EnquirySection = () => {
                   rows="5"
                   value={formData.userMessage}
                   onChange={handleChange}
-                  placeholder="How can we help you?"
+                  placeholder="I need help with my GST registration or Tax return..."
                   className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all resize-none"
                 ></textarea>
               </div>
