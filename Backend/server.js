@@ -1,63 +1,122 @@
 import express from 'express'
 import nodemailer from 'nodemailer'
 import cors from 'cors'
+import { config } from 'dotenv'
 
-
-import {config} from 'dotenv'
 config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Security Middleware (Manual Implementation of common headers)
+app.use((req, res, next) => {
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
+  res.setHeader('X-XSS-Protection', '1; mode=block');
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+  res.setHeader('Content-Security-Policy', "default-src 'self'");
+  next();
+});
 
+// Basic Rate Limiting (Simple In-Memory)
+const requestCounts = new Map();
+const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
+const MAX_REQUESTS = 5; // Max 5 inquiries per window per IP
+
+const rateLimiter = (req, res, next) => {
+  const ip = req.ip || req.connection.remoteAddress;
+  const now = Date.now();
+  
+  if (!requestCounts.has(ip)) {
+    requestCounts.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+    return next();
+  }
+
+  const rateData = requestCounts.get(ip);
+  if (now > rateData.resetTime) {
+    requestCounts.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+    return next();
+  }
+
+  if (rateData.count >= MAX_REQUESTS) {
+    return res.status(429).json({ 
+      success: false, 
+      message: "Too many requests. Please try again after 15 minutes." 
+    });
+  }
+
+  rateData.count++;
+  next();
+};
+
+// CORS configuration
 const allowedOrigins = [
-  "https://infinity-consultancy-ng.vercel.app/", // Replace with your actual frontend URL
+  "https://infinity-consultancy-ng.vercel.app",
+  "http://localhost:5173", // Local development
+  "http://localhost:3000"
 ];
 
-// Middleware
 app.use(cors({
-  origin: allowedOrigins,
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST'],
+  credentials: true
 }));
+
 app.use(express.json());
 
 // Validation Helper Functions
-const validateName = (name) => /^[a-zA-Z]+$/.test(name); // Only letters
-const validateEmail = (email) => /^[^\s@]+@gmail\.com$/.test(email); // Must end with gmail.com
-const validatePhone = (phone) => /^\d{10}$/.test(phone); // Exactly 10 digits, no letters or special characters
+const validateName = (name) => /^[a-zA-Z\s]+$/.test(name);
+const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+const validatePhone = (phone) => /^\d{10}$/.test(phone);
+
+// Health Check
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "healthy", timestamp: new Date() });
+});
 
 // POST Route for Contact Form
-app.post("/send-email", (req, res) => {
+app.post("/send-email", rateLimiter, (req, res) => {
   const { firstName, lastName, email, phone, userMessage } = req.body;
 
-  if(!firstName || !lastName || !email || !phone){
-    return res.status(400).json({success:false, message:"Please enter your details"});
-  } 
-
-  // Validations
-  if (!validateName(firstName)) {
-    return res.status(400).json({ success: false, message: "Invalid First Name. Only letters are allowed." });
+  // Basic presence check
+  if (!firstName || !lastName || !email || !phone || !userMessage) {
+    return res.status(400).json({ success: false, message: "All fields are required." });
   }
 
-  if (!validateName(lastName)) {
-    return res.status(400).json({ success: false, message: "Invalid Last Name. Only letters are allowed." });
+  // Validations
+  if (!validateName(firstName) || !validateName(lastName)) {
+    return res.status(400).json({ success: false, message: "Invalid name format. Use letters only." });
   }
 
   if (!validateEmail(email)) {
-    return res.status(400).json({ success: false, message: "Invalid Email. Only Gmail addresses are allowed." });
+    return res.status(400).json({ success: false, message: "Please provide a valid email address." });
   }
 
   if (!validatePhone(phone)) {
-    return res.status(400).json({ success: false, message: "Invalid Phone Number. Only 10-digit numbers are allowed." });
+    return res.status(400).json({ success: false, message: "Phone number must be exactly 10 digits." });
   }
 
-  if (!userMessage || userMessage.trim() === "") {
-    return res.status(400).json({ success: false, message: "Message field cannot be empty." });
+  if (userMessage.trim().length < 10) {
+    return res.status(400).json({ success: false, message: "Message is too short (minimum 10 characters)." });
+  }
+
+  // Check for environment variables
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+    console.error("Missing email configuration in environment variables.");
+    return res.status(500).json({ success: false, message: "Server configuration error." });
   }
 
   // Nodemailer Transporter
   const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
+    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+    port: process.env.EMAIL_PORT || 587,
+    secure: process.env.EMAIL_PORT == 465, 
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
@@ -66,14 +125,22 @@ app.post("/send-email", (req, res) => {
 
   // Mail Options
   const mailOptions = {
-    from: `${email}`,
-    to: [process.env.EMAIL_RECIPIENT_1, process.env.EMAIL_RECIPIENT_2],
+    from: `"${firstName} ${lastName}" <${process.env.EMAIL_USER}>`,
+    replyTo: email,
+    to: [process.env.EMAIL_RECIPIENT_1, process.env.EMAIL_RECIPIENT_2].filter(Boolean),
     subject: `New Inquiry from ${firstName} ${lastName}`,
-    html:`
-      <p><b>Name:</b> ${firstName} ${lastName} </p>
-      <p><b>Email:</b> ${email}  </p>
-      <p><b>Phone:</b> ${phone}</p>
-      <p><b>Message:</b> ${userMessage}</p>
+    text: `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${userMessage}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+        <h2 style="color: #2b84ea;">New Business Inquiry</h2>
+        <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone}</p>
+        <div style="margin-top: 20px; padding: 15px; background: #f4f4f4; border-radius: 8px;">
+          <strong>Message:</strong><br/>
+          ${userMessage.replace(/\n/g, '<br/>')}
+        </div>
+      </div>
     `,
   };
 
@@ -81,14 +148,24 @@ app.post("/send-email", (req, res) => {
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error("Error sending email:", error);
-      return res.status(500).json({ success: false, message: "Failed to send the email. Please try again later." });
+      return res.status(500).json({ success: false, message: "Failed to send email. Please try again later." });
     }
-    console.log("Email sent:", info.response);
-    res.status(200).json({ success: true, message: "Your message has been sent successfully!" });
+    console.log(`Email sent from ${email}: ${info.response}`);
+    res.status(200).json({ success: true, message: "Thank you! Your message has been sent successfully." });
   });
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ success: false, message: "Internal Server Error" });
 });
 
 // Start Server
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`
+  🚀 Server is running!
+  📡 Port: ${PORT}
+  🔗 URL: http://localhost:${PORT}
+  `);
 });

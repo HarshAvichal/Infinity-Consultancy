@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleDot } from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 
 const MarqueeSection = () => {
   const marqueeItems = [
@@ -25,29 +25,29 @@ const MarqueeSection = () => {
   ];
 
   return (
-    <section id="services" className="bg-[#e7e7e7] py-8 overflow-hidden">
-      <div className="relative flex overflow-x-hidden">
-        {/* First Marquee */}
-        <div className="flex items-center space-x-12 animate-marquee">
+    <section className="bg-[#f8fafc] border-y border-gray-100 py-10 overflow-hidden relative z-20 shadow-[0_15px_50px_-15px_rgba(0,0,0,0.08)]">
+      {/* Decorative gradient overlays for smooth fading on edges */}
+      <div className="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-[#f8fafc] via-[#f8fafc]/80 to-transparent z-10"></div>
+      <div className="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-[#f8fafc] via-[#f8fafc]/80 to-transparent z-10"></div>
+
+      <div className="flex overflow-hidden group">
+        <div className="flex items-center space-x-16 animate-marquee whitespace-nowrap py-2">
           {marqueeItems.map((item, index) => (
             <span
               key={index}
-              className="text-xl font-semibold flex items-center gap-2 text-gray-800 whitespace-nowrap"
+              className="text-slate-500 hover:text-lightBlue transition-all duration-300 font-bold text-sm uppercase tracking-wider flex items-center gap-4"
             >
-              <FontAwesomeIcon icon={faCircleDot} className="text-blue-500" />
+              <FontAwesomeIcon icon={faCircleCheck} className="text-lightBlue text-base" />
               {item}
             </span>
           ))}
-        </div>
-
-        {/* Second Marquee (reverse direction) */}
-        <div className="absolute flex items-center space-x-12 top-0 animate-marquee2">
+          {/* Repeat for seamless loop */}
           {marqueeItems.map((item, index) => (
             <span
-              key={index}
-              className="text-xl font-semibold flex items-center gap-2 text-gray-800 whitespace-nowrap"
+              key={`repeat-${index}`}
+              className="text-slate-500 hover:text-lightBlue transition-all duration-300 font-bold text-sm uppercase tracking-wider flex items-center gap-4"
             >
-              <FontAwesomeIcon icon={faCircleDot} className="text-blue-500" />
+              <FontAwesomeIcon icon={faCircleCheck} className="text-lightBlue text-base" />
               {item}
             </span>
           ))}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPhone, faLocationDot, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faPhone, faLocationDot, faEnvelope, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -13,6 +13,7 @@ const EnquirySection = () => {
     phone: "",
     userMessage: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,36 +24,32 @@ const EnquirySection = () => {
     const { firstName, lastName, email, phone, userMessage } = formData;
 
     if (!firstName || !lastName || !email || !phone) {
-      toast.error("Please enter your details before sending.", { position: "top-right" });
+      toast.error("Please fill in all required fields.", { position: "top-right" });
       return false;
     }
 
-    // Validate first name and last name (no numbers or special characters)
-    const nameRegex = /^[a-zA-Z]+$/;
-    if (!nameRegex.test(firstName)) {
-      toast.error("First Name can only contain letters.", { position: "top-right" });
+    const nameRegex = /^[a-zA-Z\s]+$/;
+    if (!nameRegex.test(firstName.trim())) {
+      toast.error("First Name should only contain letters.", { position: "top-right" });
       return false;
     }
-    if (!nameRegex.test(lastName)) {
-      toast.error("Last Name can only contain letters.", { position: "top-right" });
+    if (!nameRegex.test(lastName.trim())) {
+      toast.error("Last Name should only contain letters.", { position: "top-right" });
       return false;
     }
 
-    // Validate email (must contain "gmail.com")
-    const emailRegex = /^[^\s@]+@gmail\.com$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      toast.error("Email must be a valid Gmail address.", { position: "top-right" });
+      toast.error("Please enter a valid email address.", { position: "top-right" });
       return false;
     }
 
-    // Validate phone (must be a 10-digit number)
     const phoneRegex = /^\d{10}$/;
     if (!phoneRegex.test(phone)) {
-      toast.error("Phone Number must be a 10-digit number.", { position: "top-right" });
+      toast.error("Phone Number must be exactly 10 digits.", { position: "top-right" });
       return false;
     }
 
-    // Validate message (must not be empty)
     if (!userMessage.trim()) {
       toast.error("Message field cannot be empty.", { position: "top-right" });
       return false;
@@ -64,22 +61,14 @@ const EnquirySection = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate the form
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
-    // Send email request
+    setLoading(true);
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/send-email`, formData);
-      toast.success(response.data.message || "Email sent successfully!", {
+      toast.success(response.data.message || "Thank you! Your inquiry has been sent.", {
         position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
+        autoClose: 5000,
       });
       setFormData({
         firstName: "",
@@ -89,169 +78,168 @@ const EnquirySection = () => {
         userMessage: "",
       });
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Failed to send your message. Please try again!";
-      toast.error(errorMessage, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
+      const errorMessage = error.response?.data?.message || "Failed to send message. Please try again later.";
+      toast.error(errorMessage, { position: "top-right" });
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <section id="Enquiry" className="bg-[#34354b] py-16">
-      {/* Section Header */}
-      <div className="py-8 bg-[#34354b] flex justify-center">
-        <span className="mx-4 text-2xl font-bold text-white">
-          <i className="fa-solid fa-circle-dot"></i>&nbsp;ENQUIRY
-        </span>
+    <section id="Enquiry" className="bg-[#0f172a] py-24 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-10 pointer-events-none">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-lightBlue rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-greenLight rounded-full blur-[120px]"></div>
       </div>
 
-      {/* Enquiry Form */}
-      <div className="w-11/12 max-w-[800px] mx-auto bg-[#27293d] p-8 rounded-lg shadow-md">
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          {/* Name Fields */}
-          <div className="flex flex-col md:flex-row gap-6">
-            <div className="flex-1">
-              <label htmlFor="firstName" className="block text-white font-bold mb-2">
-                First Name
-              </label>
-              <input
-                type="text"
-                id="firstName"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleChange}
-                placeholder="Enter First Name"
-                className="w-full bg-[#34354b] py-2 px-4 rounded-md focus:ring-2 focus:ring-lightBlue focus:outline-none text-white placeholder-gray-400"
-              />
-            </div>
-            <div className="flex-1">
-              <label htmlFor="lastName" className="block text-white font-bold mb-2">
-                Last Name
-              </label>
-              <input
-                type="text"
-                id="lastName"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-                placeholder="Enter Last Name"
-                className="w-full bg-[#34354b] py-2 px-4 rounded-md focus:ring-2 focus:ring-lightBlue focus:outline-none text-white placeholder-gray-400"
-              />
-            </div>
-          </div>
+      <div className="container mx-auto px-6 relative z-10">
+        <div className="text-center mb-16 space-y-4">
+          <h2 className="text-lightBlue font-bold tracking-widest text-sm uppercase">Get In Touch</h2>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white">
+            Ready to <span className="text-lightBlue">Start Your Journey?</span>
+          </h1>
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+            Fill out the form below and our team will get back to you within 24 hours.
+          </p>
+        </div>
 
-          {/* Contact Fields */}
-          <div className="flex flex-col md:flex-row gap-6">
-            <div className="flex-1">
-              <label htmlFor="email" className="block text-white font-bold mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                placeholder="Enter Email"
-                className="w-full bg-[#34354b] py-2 px-4 rounded-md focus:ring-2 focus:ring-lightBlue focus:outline-none text-white placeholder-gray-400"
-              />
+        <div className="flex flex-col lg:flex-row gap-16 items-start">
+          {/* Contact Info Card */}
+          <div className="w-full lg:w-1/3 space-y-8">
+            <div className="bg-white/5 backdrop-blur-xl border border-white/10 p-8 rounded-3xl space-y-8">
+              <h3 className="text-2xl font-bold text-white mb-6">Contact Information</h3>
+              
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-lightBlue/20 rounded-xl flex items-center justify-center text-lightBlue shrink-0">
+                  <FontAwesomeIcon icon={faPhone} />
+                </div>
+                <div>
+                  <p className="text-gray-400 text-sm">Call Us</p>
+                  <a href="tel:8460818184" className="text-white font-semibold hover:text-lightBlue transition-colors block">8460818184</a>
+                  <a href="tel:9375152535" className="text-white font-semibold hover:text-lightBlue transition-colors block">9375152535</a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-greenLight/20 rounded-xl flex items-center justify-center text-greenLight shrink-0">
+                  <FontAwesomeIcon icon={faEnvelope} />
+                </div>
+                <div>
+                  <p className="text-gray-400 text-sm">Email Us</p>
+                  <a href="mailto:nevil04@gmail.com" className="text-white font-semibold hover:text-lightBlue transition-colors block">nevil04@gmail.com</a>
+                  <a href="mailto:infinitygst04@gmail.com" className="text-white font-semibold hover:text-lightBlue transition-colors block">infinitygst04@gmail.com</a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center text-purple-400 shrink-0">
+                  <FontAwesomeIcon icon={faLocationDot} />
+                </div>
+                <div>
+                  <p className="text-gray-400 text-sm">Visit Us</p>
+                  <p className="text-white font-semibold leading-relaxed">
+                    C-50, Shantinagar Township, Bilimora(W) - 396321
+                  </p>
+                  <p className="text-gray-400 text-xs mt-1 italic">Branch: Vapi | Surat</p>
+                </div>
+              </div>
             </div>
-            <div className="flex-1">
-              <label htmlFor="phone" className="block text-white font-bold mb-2">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Enter Phone Number"
-                className="w-full bg-[#34354b] py-2 px-4 rounded-md focus:ring-2 focus:ring-lightBlue focus:outline-none text-white placeholder-gray-400"
-              />
+
+            {/* Business Hours */}
+            <div className="bg-gradient-to-br from-lightBlue/20 to-transparent p-8 rounded-3xl border border-lightBlue/20">
+              <h4 className="text-white font-bold mb-4">Business Hours</h4>
+              <ul className="space-y-2">
+                <li className="flex justify-between text-sm"><span className="text-gray-400">Mon - Fri:</span> <span className="text-white">9:00 AM - 7:00 PM</span></li>
+                <li className="flex justify-between text-sm"><span className="text-gray-400">Saturday:</span> <span className="text-white">10:00 AM - 4:00 PM</span></li>
+                <li className="flex justify-between text-sm"><span className="text-gray-400">Sunday:</span> <span className="text-red-400">Closed</span></li>
+              </ul>
             </div>
           </div>
 
-          {/* Message Field */}
-          <div>
-            <label htmlFor="userMessage" className="block text-white font-bold mb-2">
-              Message
-            </label>
-            <textarea
-              id="userMessage"
-              name="userMessage"
-              rows="4"
-              value={formData.userMessage}
-              onChange={handleChange}
-              placeholder="Your message here"
-              className="w-full bg-[#34354b] py-2 px-4 rounded-md focus:ring-2 focus:ring-lightBlue focus:outline-none text-white placeholder-gray-400"
-            ></textarea>
-          </div>
+          {/* Enquiry Form Card */}
+          <div className="w-full lg:w-2/3 bg-white p-8 md:p-12 rounded-3xl shadow-2xl">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-deepBlueHead">First Name</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    placeholder="John"
+                    className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-deepBlueHead">Last Name</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    placeholder="Doe"
+                    className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all"
+                  />
+                </div>
+              </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition duration-300 w-full"
-          >
-            Send Message
-          </button>
-        </form>
-      </div>
-      {/* Contact Details */}
-      <div className="w-11/12 max-w-[800px] mx-auto mt-12">
-        <div className="flex flex-col md:flex-row gap-12">
-          {/* Phone */}
-          <div className="flex-1 text-center text-white">
-            <p className="flex items-center justify-center gap-2 opacity-70">
-              Call us, we are always happy to help.
-            </p>
-            <a href="tel:8460818184" className="text-lightBlue block mt-1">
-              <FontAwesomeIcon icon={faPhone} className="text-lightBlue" />
-              &nbsp;8460818184
-            </a>
-            <a href="tel:9375152535" className="text-lightBlue">
-              <FontAwesomeIcon icon={faPhone} className="text-lightBlue" />
-              &nbsp;9375152535
-            </a>
-          </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-deepBlueHead">Email Address</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="john@example.com"
+                    className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-deepBlueHead">Phone Number</label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="1234567890"
+                    className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all"
+                  />
+                </div>
+              </div>
 
-          {/* Location */}
-          <div className="flex-1 text-center text-white">
-            <p className="flex items-center justify-center gap-2 opacity-70">
-              HO: C-50, Shantinagar Township, Station Road, Bilimora(W) - 396321
-            </p>
-            <p className="flex items-center justify-center gap-2 opacity-70">
-              <FontAwesomeIcon icon={faLocationDot} className="text-lightBlue" />
-              Branch: Vapi | Surat
-            </p>
-          </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-deepBlueHead">Your Message</label>
+                <textarea
+                  name="userMessage"
+                  rows="5"
+                  value={formData.userMessage}
+                  onChange={handleChange}
+                  placeholder="How can we help you?"
+                  className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all resize-none"
+                ></textarea>
+              </div>
 
-          {/* Email */}
-          <div className="flex-1 text-center text-white">
-            <p className="flex items-center justify-center gap-2 opacity-70">
-              Email us for general queries.
-            </p>
-            <a href="mailto:nevil04@gmail.com" className="text-lightBlue block">
-              <FontAwesomeIcon icon={faEnvelope} className="text-lightBlue" />
-              &nbsp;nevil04@gmail.com
-            </a>
-            <a href="mailto:infinitygst04@gmail.com" className="text-lightBlue">
-              <FontAwesomeIcon icon={faEnvelope} className="text-lightBlue" />
-              &nbsp;infinitygst04@gmail.com
-            </a>
+              <button
+                type="submit"
+                disabled={loading}
+                className={`w-full bg-lightBlue hover:bg-lightBlue500 text-white font-bold py-4 rounded-xl transition-all flex items-center justify-center gap-3 group shadow-lg shadow-lightBlue/20 ${loading ? 'opacity-70 cursor-not-allowed' : 'transform hover:-translate-y-1'}`}
+              >
+                {loading ? (
+                  "Sending Message..."
+                ) : (
+                  <>
+                    Send Inquiry
+                    <FontAwesomeIcon icon={faPaperPlane} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                  </>
+                )}
+              </button>
+            </form>
           </div>
         </div>
       </div>
-
-
-      {/* Toast Container */}
       <ToastContainer />
     </section>
   );
