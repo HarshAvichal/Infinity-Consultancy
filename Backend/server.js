@@ -54,16 +54,21 @@ const rateLimiter = (req, res, next) => {
 
 // CORS configuration
 const allowedOrigins = [
-  process.env.FRONTEND_URL, // Add your live Vercel URL here
-  "http://localhost:5173", // Local development
+  process.env.FRONTEND_URL?.replace(/\/$/, ""), 
+  "https://infinity-consultancy-blm.vercel.app",
+  "https://infinity-consultancy-fawn.vercel.app",
+  "http://localhost:5173",
   "http://localhost:3000"
 ].filter(Boolean);
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+    if (!origin) return callback(null, true);
+    const normalizedOrigin = origin.replace(/\/$/, "");
+    if (allowedOrigins.includes(normalizedOrigin)) {
       callback(null, true);
     } else {
+      console.log(`🚫 CORS Blocked origin: ${origin}`);
       callback(new Error('Not allowed by CORS'));
     }
   },
@@ -85,6 +90,7 @@ app.get("/health", (req, res) => {
 
 // POST Route for Contact Form
 app.post("/send-email", rateLimiter, (req, res) => {
+  console.log(`📩 Inquiry attempt received from: ${req.body.email}`);
   const { firstName, lastName, email, phone, userMessage } = req.body;
 
   // Basic presence check
