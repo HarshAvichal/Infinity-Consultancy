@@ -126,18 +126,13 @@ app.post("/send-email", rateLimiter, (req, res) => {
     return res.status(500).json({ success: false, message: "Server configuration error." });
   }
 
-  // Nodemailer Transporter with debugging and timeout
+  // Nodemailer Transporter
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS.replace(/\s/g, ""),
+      pass: process.env.EMAIL_PASS?.replace(/\s/g, ""),
     },
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-    socketTimeout: 15000,
-    logger: true,
-    debug: true
   });
 
   // Mail Options
@@ -186,22 +181,4 @@ app.listen(PORT, () => {
   📡 Port: ${PORT}
   🔗 URL: http://localhost:${PORT}
   `);
-
-  // Test email connection on startup
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS?.replace(/\s/g, ""),
-    }
-  });
-
-  console.log(`📧 Testing email connection for: ${process.env.EMAIL_USER}...`);
-  transporter.verify((error, success) => {
-    if (error) {
-      console.error("❌ EMAIL CONFIGURATION ERROR:", error.message);
-    } else {
-      console.log("✅ EMAIL SERVER IS READY TO SEND MESSAGES!");
-    }
-  });
 });
