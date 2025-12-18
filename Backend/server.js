@@ -186,4 +186,22 @@ app.listen(PORT, () => {
   📡 Port: ${PORT}
   🔗 URL: http://localhost:${PORT}
   `);
+
+  // Test email connection on startup
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS?.replace(/\s/g, ""),
+    }
+  });
+
+  console.log(`📧 Testing email connection for: ${process.env.EMAIL_USER}...`);
+  transporter.verify((error, success) => {
+    if (error) {
+      console.error("❌ EMAIL CONFIGURATION ERROR:", error.message);
+    } else {
+      console.log("✅ EMAIL SERVER IS READY TO SEND MESSAGES!");
+    }
+  });
 });
