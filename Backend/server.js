@@ -153,14 +153,50 @@ app.post("/send-email", rateLimiter, (req, res) => {
     subject: `New Inquiry from ${firstName} ${lastName}`,
     text: `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${userMessage}`,
     html: `
-      <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-        <h2 style="color: #2b84ea;">New Business Inquiry</h2>
-        <p><strong>Name:</strong> ${firstName} ${lastName}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <div style="margin-top: 20px; padding: 15px; background: #f4f4f4; border-radius: 8px;">
-          <strong>Message:</strong><br/>
-          ${userMessage.replace(/\n/g, '<br/>')}
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; padding: 40px 20px; color: #1e293b; line-height: 1.6;">
+        <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 20px; overflow: hidden; shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
+          <!-- Header -->
+          <div style="background: #0a0c2e; padding: 30px; text-align: center;">
+            <h1 style="color: #ffffff; margin: 0; font-size: 24px; letter-spacing: 2px;">INFINITY CONSULTANCY</h1>
+            <p style="color: #3b82f6; margin: 5px 0 0 0; font-size: 12px; font-weight: bold; text-transform: uppercase;">Inquiry Management Portal</p>
+          </div>
+          
+          <!-- Content -->
+          <div style="padding: 40px 30px;">
+            <h2 style="color: #0a0c2e; margin-top: 0; font-size: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px;">New Business Inquiry Received</h2>
+            
+            <div style="margin-top: 25px;">
+              <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td style="padding: 10px 0; color: #64748b; font-weight: bold; width: 30%;">Client Name:</td>
+                  <td style="padding: 10px 0; color: #1e293b; font-weight: 900;">${firstName} ${lastName}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 0; color: #64748b; font-weight: bold;">Email:</td>
+                  <td style="padding: 10px 0; color: #3b82f6; font-weight: bold;">${email}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 0; color: #64748b; font-weight: bold;">Phone:</td>
+                  <td style="padding: 10px 0; color: #1e293b;">${phone}</td>
+                </tr>
+              </table>
+            </div>
+
+            <div style="margin-top: 30px; background: #f8fafc; border-radius: 12px; padding: 25px; border-left: 4px solid #3b82f6;">
+              <p style="margin: 0 0 10px 0; color: #64748b; font-size: 12px; font-weight: bold; text-transform: uppercase;">Client Message:</p>
+              <p style="margin: 0; color: #334155; font-style: italic; white-space: pre-line;">"${userMessage}"</p>
+            </div>
+
+            <div style="margin-top: 40px; text-align: center;">
+              <a href="mailto:${email}" style="background: #3b82f6; color: white; padding: 15px 30px; text-decoration: none; border-radius: 10px; font-weight: bold; display: inline-block;">Reply to Client</a>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div style="background: #f1f5f9; padding: 20px; text-align: center; font-size: 11px; color: #94a3b8;">
+            <p style="margin: 0;">This is an automated notification from the <strong>Infinity Web Portal</strong>.</p>
+            <p style="margin: 5px 0 0 0;">© 2026 Infinity Consultancy. Confidential Business Inquiry.</p>
+          </div>
         </div>
       </div>
     `,
