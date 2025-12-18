@@ -54,10 +54,10 @@ const rateLimiter = (req, res, next) => {
 
 // CORS configuration
 const allowedOrigins = [
-  "https://infinity-consultancy-ng.vercel.app",
+  process.env.FRONTEND_URL, // Add your live Vercel URL here
   "http://localhost:5173", // Local development
   "http://localhost:3000"
-];
+].filter(Boolean);
 
 app.use(cors({
   origin: function (origin, callback) {
