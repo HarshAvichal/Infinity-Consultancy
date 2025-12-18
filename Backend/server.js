@@ -11,13 +11,13 @@ const PORT = process.env.PORT || 5000;
 // Trust the proxy (needed for accurate rate limiting on platforms like Vercel/Render)
 app.set('trust proxy', 1);
 
-// Security Middleware (Manual Implementation of common headers)
+// Security Middleware
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('X-XSS-Protection', '1; mode=block');
   res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
-  res.setHeader('Content-Security-Policy', "default-src 'self'");
+  // Removed Content-Security-Policy to prevent interference with cross-origin API calls
   next();
 });
 
@@ -54,22 +54,27 @@ const rateLimiter = (req, res, next) => {
 
 // CORS configuration
 const allowedOrigins = [
-  process.env.FRONTEND_URL?.replace(/\/$/, ""), 
+  process.env.FRONTEND_URL?.trim().replace(/\/$/, ""), 
   "https://infinity-consultancy-blm.vercel.app",
   "https://infinity-consultancy-fawn.vercel.app",
+  "https://infinity-consultancy.vercel.app",
   "http://localhost:5173",
   "http://localhost:3000"
 ].filter(Boolean);
 
+console.log("✅ Allowed Origins initialized:", allowedOrigins);
+
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
-    const normalizedOrigin = origin.replace(/\/$/, "");
+    
+    const normalizedOrigin = origin.trim().replace(/\/$/, "");
     if (allowedOrigins.includes(normalizedOrigin)) {
       callback(null, true);
     } else {
-      console.log(`🚫 CORS Blocked origin: ${origin}`);
-      callback(new Error('Not allowed by CORS'));
+      console.error(`🚫 CORS REJECTED: ${origin}`);
+      console.log(`💡 Expected one of: ${allowedOrigins.join(", ")}`);
+      callback(null, false); // Don't throw error, just deny access
     }
   },
   methods: ['GET', 'POST'],
