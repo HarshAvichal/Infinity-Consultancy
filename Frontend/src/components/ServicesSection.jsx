@@ -53,18 +53,18 @@ const services = [
 
 const ServicesSection = () => {
   return (
-    <section id="services" className="bg-gray-50 py-24 relative overflow-hidden">
+    <section id="services" className="bg-gray-50 py-12 md:py-24 relative overflow-hidden">
       {/* Background patterns */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-lightBlue/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-greenLight/5 rounded-full -ml-32 -mb-32 blur-3xl"></div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <h2 className="text-lightBlue font-bold tracking-widest text-sm uppercase">Our Expertise</h2>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-deepBlueHead">
+      <div className="container mx-auto px-4 md:px-6 relative z-10">
+        <div className="text-center max-w-3xl mx-auto mb-10 md:mb-16 space-y-4">
+          <h2 className="text-lightBlue font-bold tracking-widest text-xs md:text-sm uppercase">Our Expertise</h2>
+          <h1 className="text-3xl md:text-5xl font-extrabold text-deepBlueHead">
             Solutions for <span className="text-lightBlue">Every Business</span> Need
           </h1>
-          <p className="text-grayText text-lg leading-relaxed">
+          <p className="text-grayText text-sm md:text-lg leading-relaxed">
             We provide a wide range of professional services to help you manage your finances, 
             ensure compliance, and grow your business with confidence.
           </p>
@@ -95,14 +95,18 @@ const ServicesSection = () => {
         </div>
 
         {/* Bottom CTA for Services */}
-        <div className="mt-20 bg-deepBlue rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl shadow-deepBlue/20">
-          <div className="text-center md:text-left space-y-2">
-            <h2 className="text-white text-2xl md:text-3xl font-bold">Need a customized solution?</h2>
-            <p className="text-white/60">Our experts are ready to help you with your specific requirements.</p>
+        <div className="mt-12 md:mt-20 bg-deepBlue rounded-2xl md:rounded-[40px] p-6 md:p-12 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 shadow-2xl shadow-deepBlue/20 relative overflow-hidden group">
+          {/* Subtle background glow for the CTA */}
+          <div className="absolute top-0 right-0 w-32 h-32 bg-lightBlue/10 rounded-full -mr-16 -mt-16 blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
+          
+          <div className="text-center md:text-left space-y-2 relative z-10">
+            <h2 className="text-white text-xl md:text-3xl font-black">Need a customized solution?</h2>
+            <p className="text-white/60 text-xs md:text-lg">Our experts are ready to help you with your specific requirements.</p>
           </div>
+          
           <a 
             href="#Enquiry" 
-            className="bg-greenLight hover:bg-greenLight/90 text-deepBlue px-8 py-4 rounded-xl font-bold transition-all transform hover:scale-105 active:scale-95 whitespace-nowrap"
+            className="w-full md:w-auto bg-greenLight hover:bg-greenLight/90 text-deepBlue px-6 md:px-8 py-3.5 md:py-4 rounded-xl font-black text-sm md:text-base transition-all transform hover:-translate-y-1 active:scale-95 whitespace-nowrap text-center relative z-10"
           >
             Contact our Team
           </a>

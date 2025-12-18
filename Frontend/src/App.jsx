@@ -3,9 +3,9 @@ import NavBar from "./components/NavBar";
 import HeroSection from "./components/HeroSection";
 import MarqueeSection from "./components/MarqueeSection";
 import ServicesSection from "./components/ServicesSection";
-// Add other sections as needed
-import AboutSection from "./components/AboutSection"; // Example
-import EnquirySection from "./components/EnquirySection"; // Example
+import AboutSection from "./components/AboutSection";
+import EnquirySection from "./components/EnquirySection";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -27,6 +27,9 @@ const App = () => {
 
       {/* Enquiry Section */}
       <EnquirySection />
+
+      {/* Footer Section */}
+      <Footer />
     </div>
   );
 };
