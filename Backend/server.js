@@ -126,13 +126,18 @@ app.post("/send-email", rateLimiter, (req, res) => {
     return res.status(500).json({ success: false, message: "Server configuration error." });
   }
 
-  // Nodemailer Transporter
+  // Nodemailer Transporter with timeout and logging to prevent hanging
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS?.replace(/\s/g, ""),
     },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000,
+    logger: true,
+    debug: true
   });
 
   // Mail Options
@@ -157,6 +162,7 @@ app.post("/send-email", rateLimiter, (req, res) => {
   };
 
   // Send Email with async/await
+  console.log("📤 Attempting to dispatch email...");
   transporter.sendMail(mailOptions)
     .then(info => {
       console.log(`✅ Email sent successfully: ${info.response}`);
