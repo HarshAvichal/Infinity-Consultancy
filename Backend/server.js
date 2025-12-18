@@ -126,15 +126,18 @@ app.post("/send-email", rateLimiter, (req, res) => {
     return res.status(500).json({ success: false, message: "Server configuration error." });
   }
 
-  // Nodemailer Transporter
+  // Nodemailer Transporter with debugging and timeout
   const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-    port: process.env.EMAIL_PORT || 587,
-    secure: process.env.EMAIL_PORT == 465, 
+    service: 'gmail',
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      pass: process.env.EMAIL_PASS.replace(/\s/g, ""),
     },
+    connectionTimeout: 10000,
+    greetingTimeout: 10000,
+    socketTimeout: 15000,
+    logger: true,
+    debug: true
   });
 
   // Mail Options
@@ -158,15 +161,16 @@ app.post("/send-email", rateLimiter, (req, res) => {
     `,
   };
 
-  // Send Email
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error("Error sending email:", error);
-      return res.status(500).json({ success: false, message: "Failed to send email. Please try again later." });
-    }
-    console.log(`Email sent from ${email}: ${info.response}`);
-    res.status(200).json({ success: true, message: "Thank you! Your message has been sent successfully." });
-  });
+  // Send Email with async/await
+  transporter.sendMail(mailOptions)
+    .then(info => {
+      console.log(`✅ Email sent successfully: ${info.response}`);
+      res.status(200).json({ success: true, message: "Thank you! Your message has been sent successfully." });
+    })
+    .catch(error => {
+      console.error("❌ Nodemailer Error:", error);
+      res.status(500).json({ success: false, message: "Failed to send email. Please check server logs." });
+    });
 });
 
 // Error handling middleware
