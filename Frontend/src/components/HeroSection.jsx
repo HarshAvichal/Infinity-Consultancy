@@ -69,12 +69,12 @@ const HeroSection = () => {
           {/* Stats - More compact on Mobile */}
           <div className="pt-6 md:pt-8 flex items-center justify-center md:justify-start gap-6 md:gap-8 border-t border-white/5 md:border-0 mb-4 md:mb-0">
             <div className="text-center">
-              <p className="text-white text-xl md:text-2xl font-black">10+</p>
+              <p className="text-white text-xl md:text-2xl font-black">36+</p>
               <p className="text-white/40 text-[10px] md:text-sm uppercase font-bold">Years Exp.</p>
             </div>
             <div className="w-px h-6 md:h-8 bg-white/10"></div>
             <div className="text-center">
-              <p className="text-white text-xl md:text-2xl font-black">500+</p>
+              <p className="text-white text-xl md:text-2xl font-black">1000+</p>
               <p className="text-white/40 text-[10px] md:text-sm uppercase font-bold">Clients</p>
             </div>
             <div className="w-px h-6 md:h-8 bg-white/10"></div>

@@ -156,7 +156,7 @@ const AboutSection = () => {
                   </div>
 
                   <p className="text-grayText text-xs md:text-lg leading-relaxed font-medium px-2 md:px-0">
-                    With over a decade of technical expertise, I merge strategic clarity 
+                    With over 36 years of technical expertise, I merge strategic clarity 
                     with personalized financial roadmaps to ensure our clients don't just 
                     survive the market—they lead it.
                   </p>
@@ -164,7 +164,7 @@ const AboutSection = () => {
                   <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-2 md:pt-4">
                     <div className="flex items-center gap-2 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100">
                       <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
-                      <span className="text-blue-700 font-bold text-[10px] md:text-sm">10+ Years Experience</span>
+                      <span className="text-blue-700 font-bold text-[10px] md:text-sm">36+ Years Experience</span>
                     </div>
                   </div>
                 </div>
