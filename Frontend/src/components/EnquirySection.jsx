@@ -116,7 +116,7 @@ const EnquirySection = () => {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    placeholder="Rahul"
+                    placeholder="Harsh"
                     className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all"
                   />
                 </div>
@@ -127,7 +127,7 @@ const EnquirySection = () => {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    placeholder="Sharma"
+                    placeholder="Avichal"
                     className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all"
                   />
                 </div>
@@ -141,7 +141,7 @@ const EnquirySection = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="rahul@example.com"
+                    placeholder="harsh@gmail.com"
                     className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all"
                   />
                 </div>
@@ -152,7 +152,7 @@ const EnquirySection = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="9876543210"
+                    placeholder="your phone number"
                     className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all"
                   />
                 </div>
