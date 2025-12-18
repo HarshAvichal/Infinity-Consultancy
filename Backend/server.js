@@ -128,7 +128,7 @@ app.post("/send-email", rateLimiter, (req, res) => {
 
   // Mail Options
   const mailOptions = {
-    from: `"${firstName} ${lastName}" <${process.env.EMAIL_USER}>`,
+    from: `"Infinity Web Portal" <${process.env.EMAIL_USER}>`,
     replyTo: email,
     to: [process.env.EMAIL_RECIPIENT_1, process.env.EMAIL_RECIPIENT_2].filter(Boolean),
     subject: `New Inquiry from ${firstName} ${lastName}`,
