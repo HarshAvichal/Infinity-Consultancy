@@ -121,16 +121,48 @@ app.post("/send-email", rateLimiter, async (req, res) => {
     return res.status(500).json({ success: false, message: "Server configuration error." });
   }
 
+  // Validate recipients
+  const recipients = [process.env.EMAIL_RECIPIENT_1, process.env.EMAIL_RECIPIENT_2].filter(Boolean);
+  if (recipients.length === 0) {
+    console.error("❌ No valid email recipients configured.");
+    return res.status(500).json({ success: false, message: "Server configuration error: No recipients configured." });
+  }
+
+  // HTML escape function to prevent XSS
+  const escapeHtml = (text) => {
+    const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, m => map[m]);
+  };
+
+  // Escape user inputs
+  const safeFirstName = escapeHtml(firstName.trim());
+  const safeLastName = escapeHtml(lastName.trim());
+  const safeEmail = escapeHtml(email.trim());
+  const safePhone = escapeHtml(phone.trim());
+  const safeMessage = escapeHtml(userMessage.trim());
+
   try {
-    const recipients = [process.env.EMAIL_RECIPIENT_1, process.env.EMAIL_RECIPIENT_2].filter(Boolean);
+    console.log(`📧 Attempting to send email to: ${recipients.join(', ')}`);
     
     const { data, error } = await resend.emails.send({
-      from: 'Infinity Web Portal <onboarding@resend.dev>', // Resend free tier requirement
+      from: 'Infinity Consultancy <onboarding@resend.dev>',
       to: recipients,
       reply_to: email,
-      subject: `New Inquiry from ${firstName} ${lastName}`,
+      subject: `New Inquiry from ${safeFirstName} ${safeLastName}`,
       html: `
-        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; padding: 40px 20px; color: #1e293b; line-height: 1.6;">
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        </head>
+        <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; padding: 40px 20px; color: #1e293b; line-height: 1.6; margin: 0;">
           <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
             <div style="background: #0a0c2e; padding: 30px; text-align: center;">
               <h1 style="color: #ffffff; margin: 0; font-size: 24px; letter-spacing: 2px;">INFINITY CONSULTANCY</h1>
@@ -142,24 +174,28 @@ app.post("/send-email", rateLimiter, async (req, res) => {
                 <table style="width: 100%; border-collapse: collapse;">
                   <tr>
                     <td style="padding: 10px 0; color: #64748b; font-weight: bold; width: 30%;">Client Name:</td>
-                    <td style="padding: 10px 0; color: #1e293b; font-weight: 900;">${firstName} ${lastName}</td>
+                    <td style="padding: 10px 0; color: #1e293b; font-weight: 900;">${safeFirstName} ${safeLastName}</td>
                   </tr>
                   <tr>
                     <td style="padding: 10px 0; color: #64748b; font-weight: bold;">Email:</td>
-                    <td style="padding: 10px 0; color: #3b82f6; font-weight: bold;">${email}</td>
+                    <td style="padding: 10px 0; color: #3b82f6; font-weight: bold;">
+                      <a href="mailto:${safeEmail}" style="color: #3b82f6; text-decoration: none;">${safeEmail}</a>
+                    </td>
                   </tr>
                   <tr>
                     <td style="padding: 10px 0; color: #64748b; font-weight: bold;">Phone:</td>
-                    <td style="padding: 10px 0; color: #1e293b;">${phone}</td>
+                    <td style="padding: 10px 0; color: #1e293b;">
+                      <a href="tel:${safePhone}" style="color: #1e293b; text-decoration: none;">${safePhone}</a>
+                    </td>
                   </tr>
                 </table>
               </div>
               <div style="margin-top: 30px; background: #f8fafc; border-radius: 12px; padding: 25px; border-left: 4px solid #3b82f6;">
                 <p style="margin: 0 0 10px 0; color: #64748b; font-size: 12px; font-weight: bold; text-transform: uppercase;">Client Message:</p>
-                <p style="margin: 0; color: #334155; font-style: italic; white-space: pre-line;">"${userMessage}"</p>
+                <p style="margin: 0; color: #334155; font-style: italic; white-space: pre-line; word-wrap: break-word;">"${safeMessage}"</p>
               </div>
               <div style="margin-top: 40px; text-align: center;">
-                <a href="mailto:${email}" style="background: #3b82f6; color: white; padding: 15px 30px; text-decoration: none; border-radius: 10px; font-weight: bold; display: inline-block;">Reply to Client</a>
+                <a href="mailto:${safeEmail}?subject=Re: Inquiry from ${safeFirstName} ${safeLastName}" style="background: #3b82f6; color: white; padding: 15px 30px; text-decoration: none; border-radius: 10px; font-weight: bold; display: inline-block;">Reply to Client</a>
               </div>
             </div>
             <div style="background: #f1f5f9; padding: 20px; text-align: center; font-size: 11px; color: #94a3b8;">
@@ -167,21 +203,42 @@ app.post("/send-email", rateLimiter, async (req, res) => {
               <p style="margin: 5px 0 0 0;">© 2026 Infinity Consultancy. Confidential Business Inquiry.</p>
             </div>
           </div>
-        </div>
+        </body>
+        </html>
       `
     });
 
     if (error) {
-      console.error("❌ Resend API Error:", error);
-      return res.status(500).json({ success: false, message: "Failed to send email via API." });
+      console.error("❌ Resend API Error:", JSON.stringify(error, null, 2));
+      return res.status(500).json({ 
+        success: false, 
+        message: error.message || "Failed to send email. Please try again later." 
+      });
     }
 
-    console.log(`✅ Email dispatched via Resend: ${data.id}`);
-    res.status(200).json({ success: true, message: "Thank you! Your message has been sent successfully." });
+    if (!data || !data.id) {
+      console.error("❌ Resend API returned no data or ID");
+      return res.status(500).json({ 
+        success: false, 
+        message: "Email service returned an unexpected response. Please try again." 
+      });
+    }
+
+    console.log(`✅ Email dispatched successfully via Resend. Email ID: ${data.id}`);
+    console.log(`📬 Recipients: ${recipients.join(', ')}`);
+    
+    res.status(200).json({ 
+      success: true, 
+      message: "Thank you! Your message has been sent successfully." 
+    });
 
   } catch (err) {
     console.error("❌ Server Error:", err);
-    res.status(500).json({ success: false, message: "Internal server error." });
+    console.error("❌ Error Stack:", err.stack);
+    res.status(500).json({ 
+      success: false, 
+      message: "Internal server error. Please try again later." 
+    });
   }
 });
 
@@ -197,5 +254,13 @@ app.listen(PORT, () => {
   🚀 Infinity API is Live!
   📡 Port: ${PORT}
   🔗 Status: Ready to receive inquiries
+  `);
+  
+  // Configuration check
+  console.log(`
+  📋 Configuration Check:
+  ${process.env.RESEND_API_KEY ? '✅ RESEND_API_KEY: Configured' : '❌ RESEND_API_KEY: Missing'}
+  ${process.env.EMAIL_RECIPIENT_1 ? `✅ EMAIL_RECIPIENT_1: ${process.env.EMAIL_RECIPIENT_1}` : '❌ EMAIL_RECIPIENT_1: Missing'}
+  ${process.env.EMAIL_RECIPIENT_2 ? `✅ EMAIL_RECIPIENT_2: ${process.env.EMAIL_RECIPIENT_2}` : '⚠️  EMAIL_RECIPIENT_2: Not set (optional)'}
   `);
 });
