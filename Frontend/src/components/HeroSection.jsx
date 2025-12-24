@@ -69,13 +69,13 @@ const HeroSection = () => {
           {/* Stats or Trust badges */}
           <div className="pt-8 flex items-center justify-center md:justify-start gap-8 opacity-60">
             <div>
-              <p className="text-white text-2xl font-bold">10+</p>
+              <p className="text-white text-2xl font-bold">36+</p>
               <p className="text-white/60 text-sm">Years Exp.</p>
             </div>
             <div className="w-px h-8 bg-white/20"></div>
             <div>
-              <p className="text-white text-2xl font-bold">500+</p>
-              <p className="text-white/60 text-sm">Happy Clients</p>
+              <p className="text-white text-2xl font-bold">1000+</p>
+              <p className="text-white/60 text-sm">Customers</p>
             </div>
             <div className="w-px h-8 bg-white/20"></div>
             <div>
