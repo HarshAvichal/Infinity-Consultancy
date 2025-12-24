@@ -54,31 +54,31 @@ const AboutSection = () => {
   };
 
   return (
-    <section id="About" className="bg-[#f8fafc] py-12 md:py-24 overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
+    <section id="About" className="bg-[#f8fafc] py-24 overflow-hidden">
+      <div className="container mx-auto px-6">
         {/* Section Header */}
-        <div className="text-center mb-10 md:mb-16 space-y-4">
-          <div className="inline-block px-4 py-1 rounded-full bg-lightBlue/10 text-lightBlue text-xs md:text-sm font-bold tracking-wider uppercase mb-2">
+        <div className="text-center mb-16 space-y-4">
+          <div className="inline-block px-4 py-1 rounded-full bg-lightBlue/10 text-lightBlue text-sm font-bold tracking-wider uppercase mb-2">
             The Core of Infinity
           </div>
-          <h1 className="text-3xl md:text-6xl font-extrabold text-deepBlueHead tracking-tight">
+          <h1 className="text-4xl md:text-6xl font-extrabold text-deepBlueHead tracking-tight">
             Our <span className="text-lightBlue">Identity</span>
           </h1>
-          <div className="w-16 md:w-20 h-1 md:h-1.5 bg-lightBlue mx-auto rounded-full"></div>
+          <div className="w-20 h-1.5 bg-lightBlue mx-auto rounded-full"></div>
         </div>
 
         {/* Swiper Slider Wrapper */}
-        <div className="max-w-6xl mx-auto relative group px-2 md:px-4">
-          {/* Custom Navigation Buttons - Hidden on mobile for better touch experience */}
+        <div className="max-w-6xl mx-auto relative group px-4">
+          {/* Custom Navigation Buttons */}
           <button 
             ref={prevRef}
-            className="absolute left-[-20px] md:left-[-60px] top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white rounded-full shadow-xl hidden md:flex items-center justify-center text-lightBlue hover:bg-lightBlue hover:text-white transition-all duration-300 border border-gray-100 opacity-0 group-hover:opacity-100"
+            className="absolute left-[-20px] md:left-[-60px] top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white rounded-full shadow-xl flex items-center justify-center text-lightBlue hover:bg-lightBlue hover:text-white transition-all duration-300 border border-gray-100 opacity-0 group-hover:opacity-100"
           >
             <FontAwesomeIcon icon={faChevronLeft} />
           </button>
           <button 
             ref={nextRef}
-            className="absolute right-[-20px] md:right-[-60px] top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white rounded-full shadow-xl hidden md:flex items-center justify-center text-lightBlue hover:bg-lightBlue hover:text-white transition-all duration-300 border border-gray-100 opacity-0 group-hover:opacity-100"
+            className="absolute right-[-20px] md:right-[-60px] top-1/2 -translate-y-1/2 z-30 w-12 h-12 bg-white rounded-full shadow-xl flex items-center justify-center text-lightBlue hover:bg-lightBlue hover:text-white transition-all duration-300 border border-gray-100 opacity-0 group-hover:opacity-100"
           >
             <FontAwesomeIcon icon={faChevronRight} />
           </button>
@@ -113,38 +113,21 @@ const AboutSection = () => {
             spaceBetween={0}
             slidesPerView={1}
             loop={false}
-            className="about-swiper rounded-2xl md:rounded-[40px] shadow-2xl shadow-blue-900/10"
+            className="about-swiper rounded-[40px] shadow-2xl shadow-blue-900/10"
           >
             {/* Slide 1 - Director Info */}
-            <SwiperSlide className="rounded-2xl md:rounded-[40px] bg-white overflow-hidden">
-              <div className="p-5 md:p-20 flex flex-col lg:flex-row items-center gap-6 md:gap-16 min-h-[400px] md:min-h-[550px]">
-                {/* Image first on Mobile */}
-                <div className="lg:w-1/2 order-1 lg:order-2 relative w-full flex justify-center mt-4 lg:mt-0">
-                  <div className="absolute -inset-2 bg-gradient-to-tr from-lightBlue to-greenLight rounded-[2rem] opacity-10 blur-xl lg:hidden"></div>
-                  <div className="relative z-10 w-full max-w-[200px] lg:max-w-[420px]">
-                    <img
-                      src={directorImage}
-                      alt="Nevil Gandhi"
-                      className="rounded-2xl lg:rounded-[2.5rem] shadow-xl w-full border-4 lg:border-8 border-white object-cover aspect-square lg:aspect-[4/5]"
-                    />
-                    <div className="absolute -bottom-2 -right-2 lg:-bottom-6 lg:-right-10 bg-white p-2 lg:p-6 rounded-xl lg:rounded-3xl shadow-lg border border-gray-100">
-                      <p className="font-black text-xs lg:text-2xl text-deepBlueHead leading-tight">Director</p>
-                      <p className="text-lightBlue font-bold text-[10px] lg:text-sm">@Infinity</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Text Content */}
-                <div className="lg:w-1/2 order-2 lg:order-1 space-y-4 md:space-y-8 text-center lg:text-left">
-                  <div className="space-y-1 md:space-y-2">
-                    <p className="text-lightBlue font-bold text-xs md:text-lg uppercase tracking-widest">Leadership</p>
-                    <h2 className="text-2xl md:text-6xl font-black text-deepBlueHead">Nevil Gandhi</h2>
+            <SwiperSlide className="rounded-[40px] bg-white overflow-hidden">
+              <div className="p-8 md:p-20 flex flex-col lg:flex-row items-center gap-16 min-h-[550px]">
+                <div className="lg:w-1/2 space-y-8 text-center lg:text-left">
+                  <div className="space-y-2">
+                    <p className="text-lightBlue font-bold text-lg">Leadership</p>
+                    <h2 className="text-5xl md:text-6xl font-black text-deepBlueHead">Nevil Gandhi</h2>
                   </div>
                   
-                  <div className="bg-gray-50 border-l-4 border-lightBlue p-3 md:p-6 rounded-r-xl md:rounded-r-2xl inline-block mx-auto lg:mx-0">
-                    <h3 className="text-sm md:text-2xl text-deepBlueHead font-semibold">
+                  <div className="bg-gray-50 border-l-4 border-lightBlue p-6 rounded-r-2xl">
+                    <h3 className="text-2xl text-deepBlueHead font-semibold">
                       I am a{" "}
-                      <span className="text-lightBlue font-black underline decoration-lightBlue/30 underline-offset-4 lg:underline-offset-8">
+                      <span className="text-lightBlue font-black underline decoration-lightBlue/30 underline-offset-8">
                         <ReactTyped
                           strings={["Tax Consultant", "Financial Advisor", "Strategic Planner", "Growth Specialist"]}
                           typeSpeed={50}
@@ -155,16 +138,31 @@ const AboutSection = () => {
                     </h3>
                   </div>
 
-                  <p className="text-grayText text-xs md:text-lg leading-relaxed font-medium px-2 md:px-0">
-                    With over 36 years of technical expertise, I merge strategic clarity 
+                  <p className="text-grayText text-lg leading-relaxed font-medium">
+                    With over a decade of technical expertise, I merge strategic clarity 
                     with personalized financial roadmaps to ensure our clients don't just 
                     survive the market—they lead it.
                   </p>
                   
-                  <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-2 md:pt-4">
-                    <div className="flex items-center gap-2 bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100">
-                      <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
-                      <span className="text-blue-700 font-bold text-[10px] md:text-sm">36+ Years Experience</span>
+                  <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
+                    <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-full border border-blue-100">
+                      <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                      <span className="text-blue-700 font-bold text-sm">10+ Years Experience</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="lg:w-1/2 relative">
+                  <div className="absolute -inset-4 bg-gradient-to-tr from-lightBlue to-greenLight rounded-[3rem] opacity-10 blur-2xl"></div>
+                  <div className="relative z-10">
+                    <img
+                      src={directorImage}
+                      alt="Nevil Gandhi"
+                      className="rounded-[2.5rem] shadow-2xl w-full max-w-[420px] mx-auto border-8 border-white object-cover aspect-[4/5]"
+                    />
+                    <div className="absolute -bottom-6 -right-6 md:-right-10 bg-white p-6 rounded-3xl shadow-xl border border-gray-100 hidden md:block">
+                      <p className="font-black text-2xl text-deepBlueHead">Director</p>
+                      <p className="text-lightBlue font-bold">@InfinityConsultancy</p>
                     </div>
                   </div>
                 </div>
@@ -172,64 +170,58 @@ const AboutSection = () => {
             </SwiperSlide>
 
             {/* Slide 2 - Vision */}
-            <SwiperSlide className="rounded-2xl md:rounded-[40px] bg-white overflow-hidden">
-              <div className="p-5 md:p-20 flex flex-col lg:flex-row items-center gap-6 md:gap-16 min-h-[400px] md:min-h-[550px]">
-                {/* Image first on Mobile */}
-                <div className="lg:w-1/2 order-1 lg:order-2 flex justify-center w-full">
-                  <div className="w-full max-w-[200px] lg:max-w-[450px] bg-gradient-to-br from-green-50 to-blue-50 rounded-full p-6 md:p-12">
-                    <Lottie options={visionOptions} />
+            <SwiperSlide className="rounded-[40px] bg-white overflow-hidden">
+              <div className="p-8 md:p-20 flex flex-col lg:flex-row items-center gap-16 min-h-[550px]">
+                <div className="lg:w-1/2 text-center lg:text-left space-y-8">
+                  <div className="space-y-2">
+                    <p className="text-green-500 font-bold text-lg italic">Future Focused</p>
+                    <h2 className="text-5xl md:text-6xl font-black text-deepBlueHead">Our Vision</h2>
                   </div>
-                </div>
-
-                {/* Text Content */}
-                <div className="lg:w-1/2 order-2 lg:order-1 text-center lg:text-left space-y-4 md:space-y-8">
-                  <div className="space-y-1 md:space-y-2">
-                    <p className="text-green-500 font-bold text-xs md:text-lg italic uppercase tracking-widest">Future Focused</p>
-                    <h2 className="text-2xl md:text-6xl font-black text-deepBlueHead">Our Vision</h2>
-                  </div>
-                  <p className="text-grayText text-sm md:text-xl leading-relaxed font-medium">
+                  <p className="text-grayText text-xl leading-relaxed">
                     To be the catalyst for financial freedom, turning complex fiscal 
                     challenges into transparent opportunities for every client we serve.
                   </p>
-                  <div className="grid grid-cols-2 gap-2 md:gap-4">
+                  <div className="grid grid-cols-2 gap-4">
                     {["Transparency", "Growth", "Innovation", "Security"].map((v) => (
-                      <div key={v} className="flex items-center gap-2 md:gap-3 bg-green-50/50 p-2 md:p-4 rounded-xl md:rounded-2xl border border-green-100">
-                        <div className="w-1.5 md:w-2 h-1.5 md:h-2 rounded-full bg-green-500"></div>
-                        <span className="font-bold text-gray-700 text-[10px] md:text-sm">{v}</span>
+                      <div key={v} className="flex items-center gap-3 bg-green-50/50 p-4 rounded-2xl border border-green-100">
+                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                        <span className="font-bold text-gray-700">{v}</span>
                       </div>
                     ))}
+                  </div>
+                </div>
+                <div className="lg:w-1/2 flex justify-center">
+                  <div className="w-full max-w-[450px] bg-gradient-to-br from-green-50 to-blue-50 rounded-full p-12">
+                    <Lottie options={visionOptions} />
                   </div>
                 </div>
               </div>
             </SwiperSlide>
 
             {/* Slide 3 - Mission */}
-            <SwiperSlide className="rounded-2xl md:rounded-[40px] bg-white overflow-hidden">
-              <div className="p-5 md:p-20 flex flex-col lg:flex-row items-center gap-6 md:gap-16 min-h-[400px] md:min-h-[550px]">
-                {/* Image first on Mobile */}
-                <div className="lg:w-1/2 order-1 lg:order-2 flex justify-center w-full">
-                  <div className="w-full max-w-[200px] lg:max-w-[450px] bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full p-6 md:p-12">
-                    <Lottie options={missionOptions} />
+            <SwiperSlide className="rounded-[40px] bg-white overflow-hidden">
+              <div className="p-8 md:p-20 flex flex-col lg:flex-row items-center gap-16 min-h-[550px]">
+                <div className="lg:w-1/2 text-center lg:text-left space-y-8">
+                  <div className="space-y-2">
+                    <p className="text-lightBlue font-bold text-lg italic">Our Purpose</p>
+                    <h2 className="text-5xl md:text-6xl font-black text-deepBlueHead">Our Mission</h2>
                   </div>
-                </div>
-
-                {/* Text Content */}
-                <div className="lg:w-1/2 order-2 lg:order-1 text-center lg:text-left space-y-4 md:space-y-8">
-                  <div className="space-y-1 md:space-y-2">
-                    <p className="text-lightBlue font-bold text-xs md:text-lg italic uppercase tracking-widest">Our Purpose</p>
-                    <h2 className="text-2xl md:text-6xl font-black text-deepBlueHead">Our Mission</h2>
-                  </div>
-                  <p className="text-grayText text-sm md:text-xl leading-relaxed font-medium">
+                  <p className="text-grayText text-xl leading-relaxed">
                     Empowering clients through integrity-driven consultancy, 
                     leveraging cutting-edge financial tools and a relentless 
                     commitment to excellence.
                   </p>
-                  <div className="flex flex-wrap justify-center lg:justify-start gap-2 md:gap-3">
+                  <div className="flex flex-wrap justify-center lg:justify-start gap-3">
                     {["Client First", "Ethical Growth", "Modern Solutions"].map((tag) => (
-                      <span key={tag} className="bg-deepBlue text-white px-3 md:px-6 py-1.5 md:py-3 rounded-lg md:rounded-2xl font-bold text-[10px] md:text-sm shadow-lg shadow-blue-900/20">
+                      <span key={tag} className="bg-deepBlue text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-blue-900/20">
                         {tag}
                       </span>
                     ))}
+                  </div>
+                </div>
+                <div className="lg:w-1/2 flex justify-center">
+                  <div className="w-full max-w-[450px] bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full p-12">
+                    <Lottie options={missionOptions} />
                   </div>
                 </div>
               </div>
