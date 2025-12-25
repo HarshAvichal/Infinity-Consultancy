@@ -88,16 +88,18 @@ const Navbar = () => {
             className="group flex items-center gap-1 md:gap-2 cursor-pointer"
           >
             <div className="flex flex-col">
-              <span className="text-white text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight group-hover:text-lightBlue transition-colors whitespace-nowrap leading-tight">
-                INFINITY <span className="text-white group-hover:text-lightBlue">CONSULTANCY</span>
-              </span>
+              <div className="flex items-center gap-1 md:gap-2">
+                <span className="text-white text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight group-hover:text-lightBlue transition-colors whitespace-nowrap leading-tight">
+                  INFINITY <span className="text-white group-hover:text-lightBlue">CONSULTANCY</span>
+                </span>
+                {/* Infinity Animation - right after CONSULTANCY */}
+                <div className="w-12 h-12 sm:w-16 sm:h-16 -ml-1 md:-ml-2">
+                  <Lottie options={infinityOptions} />
+                </div>
+              </div>
               <span className="text-gray-400 text-[10px] sm:text-xs md:text-sm font-medium tracking-wider uppercase mt-0.5 group-hover:text-lightBlue/80 transition-colors">
                 since 1989
               </span>
-            </div>
-            {/* Infinity Animation */}
-            <div className="w-12 h-12 sm:w-16 sm:h-16 -ml-1 md:-ml-2">
-              <Lottie options={infinityOptions} />
             </div>
           </a>
         </div>
