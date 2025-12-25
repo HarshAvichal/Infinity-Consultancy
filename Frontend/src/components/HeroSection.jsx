@@ -15,7 +15,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative bg-deepBlue min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section className="relative bg-deepBlue min-h-screen flex items-center justify-center overflow-hidden pt-28 md:pt-20">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-lightBlue/10 rounded-full blur-[120px]"></div>

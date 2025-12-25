@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Lottie from "react-lottie";
 import infinityAnimation from "../assets/lottieAnimations/Infinity-animation.json";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const scrollPositionRef = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,6 +14,42 @@ const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      // Save current scroll position BEFORE changing overflow
+      scrollPositionRef.current = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+      
+      // Simply prevent scrolling without changing scroll position
+      // Apply to both html and body for better compatibility
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      // Also prevent touch scrolling on mobile
+      document.body.style.touchAction = 'none';
+    } else {
+      // Restore scrolling
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+      
+      // Restore scroll position immediately after removing overflow
+      // Use requestAnimationFrame to ensure it happens after the style change
+      requestAnimationFrame(() => {
+        const savedPosition = scrollPositionRef.current;
+        if (savedPosition !== undefined && savedPosition !== null) {
+          window.scrollTo(0, savedPosition);
+        }
+      });
+    }
+    return () => {
+      // Cleanup on unmount
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    };
+  }, [menuOpen]);
+
 
   const infinityOptions = {
     loop: true,
@@ -26,7 +63,7 @@ const Navbar = () => {
   const navLinks = [
     { name: "Services", href: "#services" },
     { name: "About", href: "#About" },
-    { name: "Enquiry / Contact", href: "#Enquiry" },
+    { name: "Enquiry", href: "#Enquiry" },
   ];
 
   return (
@@ -37,11 +74,27 @@ const Navbar = () => {
     >
       <div className="relative z-50 w-full max-w-[1200px] mx-auto flex items-center justify-between px-4 md:px-6">
         <div className="flex items-center gap-1">
-          {/* Infinity Consultancy Text */}
-          <a href="/" className="group flex items-center gap-1 md:gap-2 cursor-pointer">
-            <span className="text-white text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight group-hover:text-lightBlue transition-colors whitespace-nowrap">
-              INFINITY <span className="text-lightBlue group-hover:text-white">CONSULTANCY</span>
-            </span>
+          {/* Infinity Consultancy Logo with "since 1989" */}
+          <a 
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              // Smooth scroll to top
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+              });
+            }}
+            className="group flex items-center gap-1 md:gap-2 cursor-pointer"
+          >
+            <div className="flex flex-col">
+              <span className="text-white text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight group-hover:text-lightBlue transition-colors whitespace-nowrap leading-tight">
+                INFINITY <span className="text-white group-hover:text-lightBlue">CONSULTANCY</span>
+              </span>
+              <span className="text-gray-400 text-[10px] sm:text-xs md:text-sm font-medium tracking-wider uppercase mt-0.5 group-hover:text-lightBlue/80 transition-colors">
+                since 1989
+              </span>
+            </div>
             {/* Infinity Animation */}
             <div className="w-12 h-12 sm:w-16 sm:h-16 -ml-1 md:-ml-2">
               <Lottie options={infinityOptions} />
@@ -62,20 +115,17 @@ const Navbar = () => {
               </a>
             </li>
           ))}
-          <li>
-            <a 
-              href="#Enquiry" 
-              className="bg-lightBlue hover:bg-lightBlue500 text-white px-5 py-2 rounded-full font-bold transition-all transform hover:scale-105 active:scale-95"
-            >
-              Get Started
-            </a>
-          </li>
         </ul>
 
         {/* Hamburger Menu for Mobile */}
         <button
-          className="text-white text-3xl md:hidden focus:outline-none"
-          onClick={() => setMenuOpen(!menuOpen)}
+          type="button"
+          className="text-white text-3xl md:hidden focus:outline-none relative z-[50]"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setMenuOpen(!menuOpen);
+          }}
           aria-label="Toggle menu"
         >
           {menuOpen ? "✕" : "☰"}
@@ -84,28 +134,56 @@ const Navbar = () => {
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 bg-deepBlue z-40 md:hidden transition-transform duration-500 ease-in-out ${
+        className={`fixed inset-0 bg-deepBlue z-[45] md:hidden transition-transform duration-500 ease-in-out ${
           menuOpen ? "translate-x-0" : "translate-x-full"
         }`}
+        style={{ 
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100vw',
+          height: '100vh',
+          willChange: 'transform',
+          margin: 0,
+          padding: 0
+        }}
+        onClick={(e) => {
+          // Close menu if clicking on the overlay background (not on links)
+          if (e.target === e.currentTarget) {
+            setMenuOpen(false);
+          }
+        }}
       >
-        <div className="flex flex-col items-center justify-center h-full gap-8">
+        <div className="flex flex-col items-center justify-center h-full gap-8 px-6">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="text-white text-2xl font-bold hover:text-lightBlue"
-              onClick={() => setMenuOpen(false)}
+              className="text-white text-2xl font-bold hover:text-lightBlue transition-colors w-full text-center py-2"
+              onClick={(e) => {
+                e.preventDefault();
+                // Close menu first
+                setMenuOpen(false);
+                // Wait for menu to close, then scroll to section
+                setTimeout(() => {
+                  const element = document.querySelector(link.href);
+                  if (element) {
+                    const offset = 100; // Account for fixed navbar
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - offset;
+                    window.scrollTo({
+                      top: offsetPosition,
+                      behavior: 'smooth'
+                    });
+                  }
+                }, 350);
+              }}
             >
               {link.name}
             </a>
           ))}
-          <a
-            href="#Enquiry"
-            className="mt-4 bg-lightBlue text-white px-8 py-3 rounded-full font-bold text-xl"
-            onClick={() => setMenuOpen(false)}
-          >
-            Get Started
-          </a>
         </div>
       </div>
     </nav>

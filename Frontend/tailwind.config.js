@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       animation: {
         marquee: "marquee 40s linear infinite",
+        'marquee-slow': "marquee 80s linear infinite",
         marquee2: "marquee2 40s linear infinite",
         blob: 'blob 3s linear infinite'
       },
