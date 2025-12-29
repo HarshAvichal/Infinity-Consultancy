@@ -1,5 +1,5 @@
 import express from 'express'
-import { Resend } from 'resend'
+import nodemailer from 'nodemailer'
 import cors from 'cors'
 import { config } from 'dotenv'
 
@@ -7,7 +7,23 @@ config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const resend = new Resend(process.env.RESEND_API_KEY);
+
+// Initialize Nodemailer transporter
+let transporter;
+if (process.env.EMAIL_HOST && process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+  transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: parseInt(process.env.EMAIL_PORT || '587'),
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+  console.log("✅ Nodemailer initialized with Gmail SMTP");
+} else {
+  console.error("❌ Email configuration missing (EMAIL_HOST, EMAIL_USER, EMAIL_PASS)");
+}
 
 // Trust the proxy (needed for accurate rate limiting on platforms like Vercel/Render)
 app.set('trust proxy', 1);
@@ -114,8 +130,9 @@ app.post("/send-email", rateLimiter, async (req, res) => {
     return res.status(400).json({ success: false, message: "Message is too short (minimum 10 characters)." });
   }
 
-  if (!process.env.RESEND_API_KEY) {
-    console.error("❌ Missing RESEND_API_KEY in environment variables.");
+  // Validate email configuration
+  if (!transporter) {
+    console.error("❌ Email transporter not initialized. Check EMAIL_HOST, EMAIL_USER, EMAIL_PASS.");
     return res.status(500).json({ success: false, message: "Server configuration error." });
   }
 
@@ -147,11 +164,13 @@ app.post("/send-email", rateLimiter, async (req, res) => {
 
   try {
     console.log(`📧 Attempting to send email to: ${recipients.join(', ')}`);
+    console.log(`📧 From: ${process.env.EMAIL_USER}`);
+    console.log(`📧 Reply-To: ${email}`);
     
-    const { data, error } = await resend.emails.send({
-      from: 'Infinity Consultancy <onboarding@resend.dev>',
-      to: recipients,
-      reply_to: email,
+    const mailOptions = {
+      from: `"Infinity Consultancy" <${process.env.EMAIL_USER}>`,
+      to: recipients.join(', '),
+      replyTo: email,
       subject: `New Inquiry from ${safeFirstName} ${safeLastName}`,
       html: `
         <!DOCTYPE html>
@@ -204,26 +223,14 @@ app.post("/send-email", rateLimiter, async (req, res) => {
         </body>
         </html>
       `
-    });
+    };
 
-    if (error) {
-      console.error("❌ Resend API Error:", JSON.stringify(error, null, 2));
-      return res.status(500).json({ 
-        success: false, 
-        message: error.message || "Failed to send email. Please try again later." 
-      });
-    }
-
-    if (!data || !data.id) {
-      console.error("❌ Resend API returned no data or ID");
-      return res.status(500).json({ 
-        success: false, 
-        message: "Email service returned an unexpected response. Please try again." 
-      });
-    }
-
-    console.log(`✅ Email dispatched successfully via Resend. Email ID: ${data.id}`);
+    const info = await transporter.sendMail(mailOptions);
+    
+    console.log(`✅ Email sent successfully via Nodemailer`);
+    console.log(`📬 Message ID: ${info.messageId}`);
     console.log(`📬 Recipients: ${recipients.join(', ')}`);
+    console.log(`📬 Response: ${info.response}`);
     
     res.status(200).json({ 
       success: true, 
@@ -231,11 +238,25 @@ app.post("/send-email", rateLimiter, async (req, res) => {
     });
 
   } catch (err) {
-    console.error("❌ Server Error:", err);
-    console.error("❌ Error Stack:", err.stack);
+    console.error("❌ Email sending error:");
+    console.error("Error:", err);
+    console.error("Error Message:", err.message);
+    console.error("Error Code:", err.code);
+    console.error("Error Stack:", err.stack);
+    
+    // More specific error messages
+    let errorMessage = "Failed to send email. Please try again later.";
+    if (err.code === 'EAUTH') {
+      errorMessage = "Email authentication failed. Please check email credentials.";
+    } else if (err.code === 'ECONNECTION') {
+      errorMessage = "Could not connect to email server. Please try again later.";
+    } else if (err.message) {
+      errorMessage = err.message;
+    }
+    
     res.status(500).json({ 
       success: false, 
-      message: "Internal server error. Please try again later." 
+      message: errorMessage
     });
   }
 });
@@ -257,7 +278,9 @@ app.listen(PORT, () => {
   // Configuration check
   console.log(`
   📋 Configuration Check:
-  ${process.env.RESEND_API_KEY ? '✅ RESEND_API_KEY: Configured' : '❌ RESEND_API_KEY: Missing'}
+  ${process.env.EMAIL_HOST ? `✅ EMAIL_HOST: ${process.env.EMAIL_HOST}` : '❌ EMAIL_HOST: Missing'}
+  ${process.env.EMAIL_USER ? `✅ EMAIL_USER: ${process.env.EMAIL_USER}` : '❌ EMAIL_USER: Missing'}
+  ${process.env.EMAIL_PASS ? '✅ EMAIL_PASS: Configured' : '❌ EMAIL_PASS: Missing'}
   ${process.env.EMAIL_RECIPIENT_1 ? `✅ EMAIL_RECIPIENT_1: ${process.env.EMAIL_RECIPIENT_1}` : '❌ EMAIL_RECIPIENT_1: Missing'}
   ${process.env.EMAIL_RECIPIENT_2 ? `✅ EMAIL_RECIPIENT_2: ${process.env.EMAIL_RECIPIENT_2}` : '⚠️  EMAIL_RECIPIENT_2: Not set (optional)'}
   `);
