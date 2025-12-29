@@ -65,7 +65,46 @@ const EnquirySection = () => {
 
     setLoading(true);
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/send-email`, formData);
+      // Try to get backend URL from environment, with fallback
+      const backendUrl = import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_URL;
+      console.log("🔍 Frontend Debug - Backend URL:", backendUrl);
+      console.log("🔍 Frontend Debug - All env vars:", import.meta.env);
+      console.log("🔍 Frontend Debug - Form Data:", formData);
+      
+      if (!backendUrl) {
+        console.error("❌ Backend URL is missing!");
+        setLoading(false);
+        toast.error("Backend server is not configured. Please contact support.", { 
+          position: "top-right", 
+          autoClose: 8000 
+        });
+        return;
+      }
+
+      // First, verify backend is reachable
+      try {
+        console.log(`🔍 Checking backend health at: ${backendUrl}/health`);
+        await axios.get(`${backendUrl}/health`, { timeout: 5000 });
+        console.log("✅ Backend is reachable");
+      } catch (healthError) {
+        console.warn("⚠️ Backend health check failed:", healthError.message);
+        // Continue anyway - health check is just a warning
+      }
+
+      console.log(`📤 Sending request to: ${backendUrl}/send-email`);
+      const response = await axios.post(
+        `${backendUrl}/send-email`, 
+        formData,
+        {
+          timeout: 30000, // 30 seconds timeout
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+      
+      console.log("✅ Response received:", response.data);
+      
       toast.success(response.data.message || "Thank you! Your inquiry has been sent.", {
         position: "top-right",
         autoClose: 5000,
@@ -78,10 +117,33 @@ const EnquirySection = () => {
         userMessage: "",
       });
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "Failed to send message. Please try again later.";
-      toast.error(errorMessage, { position: "top-right" });
+      console.error("❌ Form submission error:", error);
+      console.error("❌ Error details:", {
+        message: error.message,
+        code: error.code,
+        response: error.response?.data,
+        status: error.response?.status,
+        config: error.config?.url
+      });
+      
+      let errorMessage = "Failed to send message. Please try again later.";
+      
+      if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
+        errorMessage = "Request timed out. Please check your connection and try again.";
+      } else if (error.code === 'ERR_NETWORK' || error.message?.includes('Network Error')) {
+        errorMessage = "Network error. Please check your internet connection and backend URL.";
+      } else if (error.response?.status === 429) {
+        errorMessage = "Too many requests. Please wait a few minutes and try again.";
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      toast.error(errorMessage, { position: "top-right", autoClose: 6000 });
     } finally {
       setLoading(false);
+      console.log("🏁 Form submission finished, loading set to false");
     }
   };
 

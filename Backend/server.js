@@ -19,6 +19,9 @@ if (process.env.EMAIL_HOST && process.env.EMAIL_USER && process.env.EMAIL_PASS) 
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
+    connectionTimeout: 10000, // 10 seconds to establish connection
+    socketTimeout: 30000, // 30 seconds for socket operations
+    greetingTimeout: 10000, // 10 seconds for greeting
   });
   console.log("✅ Nodemailer initialized with Gmail SMTP");
 } else {
@@ -80,17 +83,28 @@ console.log("✅ Allowed Origins initialized:", allowedOrigins);
 
 app.use(cors({
   origin: function (origin, callback) {
-    if (!origin) return callback(null, true);
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) {
+      console.log("✅ CORS: Allowing request with no origin");
+      return callback(null, true);
+    }
+    
     const normalizedOrigin = origin.trim().replace(/\/$/, "");
+    console.log(`🔍 CORS check: ${normalizedOrigin}`);
+    console.log(`📋 Allowed origins:`, allowedOrigins);
+    
     if (allowedOrigins.includes(normalizedOrigin)) {
+      console.log(`✅ CORS: Allowing ${normalizedOrigin}`);
       callback(null, true);
     } else {
-      console.error(`🚫 CORS REJECTED: ${origin}`);
-      callback(null, false);
+      console.error(`🚫 CORS REJECTED: ${origin} (not in allowed list)`);
+      // Still allow for now to debug, but log the issue
+      callback(null, true); // Temporarily allow to debug
     }
   },
-  methods: ['GET', 'POST'],
-  credentials: true
+  methods: ['GET', 'POST', 'OPTIONS'],
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
@@ -107,7 +121,11 @@ app.get("/health", (req, res) => {
 
 // POST Route for Contact Form
 app.post("/send-email", rateLimiter, async (req, res) => {
-  console.log(`📩 Inquiry attempt received from: ${req.body.email}`);
+  console.log(`📩 Inquiry attempt received`);
+  console.log(`📍 Origin: ${req.headers.origin || 'No origin header'}`);
+  console.log(`📦 Request body:`, JSON.stringify(req.body, null, 2));
+  console.log(`📧 Email from: ${req.body?.email || 'No email in body'}`);
+  
   const { firstName, lastName, email, phone, userMessage } = req.body;
 
   if (!firstName || !lastName || !email || !phone || !userMessage) {
@@ -167,6 +185,11 @@ app.post("/send-email", rateLimiter, async (req, res) => {
     console.log(`📧 From: ${process.env.EMAIL_USER}`);
     console.log(`📧 Reply-To: ${email}`);
     
+    // Verify transporter is ready
+    if (!transporter) {
+      throw new Error("Email transporter not initialized");
+    }
+    
     const mailOptions = {
       from: `"Infinity Consultancy" <${process.env.EMAIL_USER}>`,
       to: recipients.join(', '),
@@ -225,7 +248,13 @@ app.post("/send-email", rateLimiter, async (req, res) => {
       `
     };
 
-    const info = await transporter.sendMail(mailOptions);
+    // Send email with timeout wrapper
+    const sendEmailPromise = transporter.sendMail(mailOptions);
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error("Email sending timeout after 25 seconds")), 25000)
+    );
+    
+    const info = await Promise.race([sendEmailPromise, timeoutPromise]);
     
     console.log(`✅ Email sent successfully via Nodemailer`);
     console.log(`📬 Message ID: ${info.messageId}`);
@@ -250,14 +279,19 @@ app.post("/send-email", rateLimiter, async (req, res) => {
       errorMessage = "Email authentication failed. Please check email credentials.";
     } else if (err.code === 'ECONNECTION') {
       errorMessage = "Could not connect to email server. Please try again later.";
+    } else if (err.code === 'ETIMEDOUT') {
+      errorMessage = "Email server connection timed out. Please try again.";
     } else if (err.message) {
       errorMessage = err.message;
     }
     
-    res.status(500).json({ 
-      success: false, 
-      message: errorMessage
-    });
+    // Make sure we always send a response
+    if (!res.headersSent) {
+      res.status(500).json({ 
+        success: false, 
+        message: errorMessage
+      });
+    }
   }
 });
 
