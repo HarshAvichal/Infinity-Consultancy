@@ -124,10 +124,10 @@ const AboutSection = () => {
                     <h2 className="text-5xl md:text-6xl font-black text-deepBlueHead">Nevil Gandhi</h2>
                   </div>
                   
-                  <div className="bg-gray-50 border-l-4 border-lightBlue p-6 rounded-r-2xl min-h-[140px] md:min-h-0 flex items-center">
-                    <h3 className="text-2xl text-deepBlueHead font-semibold">
+                  <div className="bg-gray-50 border-l-4 border-lightBlue p-6 rounded-r-2xl">
+                    <h3 className="text-xl md:text-2xl text-deepBlueHead font-semibold">
                       I am a{" "}
-                      <span className="text-lightBlue font-black underline decoration-lightBlue/30 underline-offset-8 inline-block min-w-[200px]">
+                      <span className="text-lightBlue font-black underline decoration-lightBlue/30 underline-offset-8 whitespace-nowrap">
                         <ReactTyped
                           strings={["Tax Consultant", "Financial Advisor", "Strategic Planner", "Growth Specialist"]}
                           typeSpeed={50}
