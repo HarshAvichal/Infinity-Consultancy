@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import accounting from "../images/accounting.png";
 import tax from "../images/Harsh.png";
 import gst from "../images/GST.png";
 import health from "../images/Health.png";
 import lic from "../images/Lic.png";
 import software from "../images/software.png";
+import servicelist1 from "../images/servicelist1.jpeg";
+import servicelist2 from "../images/servicelist2.jpeg";
 
 const services = [
   {
@@ -52,6 +56,47 @@ const services = [
 ];
 
 const ServicesSection = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const serviceListImages = [servicelist1, servicelist2];
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % serviceListImages.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev - 1 + serviceListImages.length) % serviceListImages.length);
+  };
+
+  // Handle keyboard navigation
+  React.useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (isModalOpen) {
+        if (e.key === "Escape") closeModal();
+        if (e.key === "ArrowRight") nextImage();
+        if (e.key === "ArrowLeft") prevImage();
+      }
+    };
+    window.addEventListener("keydown", handleKeyPress);
+    return () => window.removeEventListener("keydown", handleKeyPress);
+  }, [isModalOpen]);
+
+  // Prevent body scroll when modal is open
+  React.useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isModalOpen]);
+
   return (
     <section id="services" className="bg-gray-50 py-12 md:py-24 relative overflow-hidden">
       {/* Background patterns */}
@@ -94,6 +139,25 @@ const ServicesSection = () => {
           ))}
         </div>
 
+        {/* Know More Section */}
+        <div className="mt-12 md:mt-16 text-center">
+          <div className="max-w-2xl mx-auto space-y-4">
+            <p className="text-grayText text-sm md:text-lg">
+              Want to explore our complete range of services?
+            </p>
+            <button
+              onClick={openModal}
+              className="inline-flex items-center gap-3 bg-lightBlue hover:bg-lightBlue500 text-white px-8 py-4 rounded-xl font-bold text-base md:text-lg shadow-lg shadow-lightBlue/20 transition-all transform hover:-translate-y-1 active:scale-95"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              View Complete Service List
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+
         {/* Bottom CTA for Services */}
         <div className="mt-12 md:mt-20 bg-deepBlue rounded-2xl md:rounded-[40px] p-6 md:p-12 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8 shadow-2xl shadow-deepBlue/20 relative overflow-hidden group">
           {/* Subtle background glow for the CTA */}
@@ -111,6 +175,80 @@ const ServicesSection = () => {
             Contact our Team
           </a>
         </div>
+
+        {/* Service List Modal */}
+        {isModalOpen && (
+          <div
+            className="fixed inset-0 bg-black/95 z-[200] flex items-center justify-center p-4"
+            onClick={closeModal}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeModal}
+              className="absolute top-4 right-4 md:top-8 md:right-8 text-white hover:text-lightBlue transition-colors z-[210] bg-black/50 rounded-full p-3 hover:bg-black/70"
+              aria-label="Close modal"
+            >
+              <FontAwesomeIcon icon={faTimes} className="text-2xl" />
+            </button>
+
+            {/* Navigation Buttons */}
+            {serviceListImages.length > 1 && (
+              <>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    prevImage();
+                  }}
+                  className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white hover:text-lightBlue transition-colors z-[210] bg-black/50 rounded-full p-4 hover:bg-black/70"
+                  aria-label="Previous image"
+                >
+                  <FontAwesomeIcon icon={faChevronLeft} className="text-xl" />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    nextImage();
+                  }}
+                  className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white hover:text-lightBlue transition-colors z-[210] bg-black/50 rounded-full p-4 hover:bg-black/70"
+                  aria-label="Next image"
+                >
+                  <FontAwesomeIcon icon={faChevronRight} className="text-xl" />
+                </button>
+              </>
+            )}
+
+            {/* Image Container */}
+            <div
+              className="max-w-6xl max-h-[90vh] w-full flex items-center justify-center"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="relative">
+                <img
+                  src={serviceListImages[currentImageIndex]}
+                  alt={`Service List ${currentImageIndex + 1}`}
+                  className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
+                />
+                {/* Image Counter */}
+                {serviceListImages.length > 1 && (
+                  <div className="absolute top-4 left-4 bg-black/70 text-white px-4 py-2 rounded-full text-sm font-bold backdrop-blur-sm">
+                    {currentImageIndex + 1} / {serviceListImages.length}
+                  </div>
+                )}
+                {/* Image Title */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 rounded-b-lg">
+                  <p className="text-white font-bold text-lg md:text-xl text-center">
+                    Complete Service Catalog
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Instructions */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/60 text-sm hidden md:block">
+              Use arrow keys or click arrows to navigate • Press ESC to close
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
