@@ -40,9 +40,12 @@ const Navbar = () => {
         <div className="flex items-center gap-1">
           {/* Infinity Consultancy Text */}
           <a href="/" className="group flex items-center gap-1 md:gap-2 cursor-pointer">
-            <span className="text-white text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight group-hover:text-lightBlue transition-colors whitespace-nowrap">
-              INFINITY <span className="text-lightBlue group-hover:text-white">CONSULTANCY</span>
-            </span>
+            <div className="flex flex-col">
+              <span className="text-white text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight group-hover:text-lightBlue transition-colors whitespace-nowrap">
+                INFINITY <span className="text-white group-hover:text-lightBlue">CONSULTANCY</span>
+              </span>
+              <span className="text-white/70 text-[10px] sm:text-xs md:text-sm font-medium tracking-wide">Since 1989</span>
+            </div>
             {/* Infinity Animation */}
             <div className="w-12 h-12 sm:w-16 sm:h-16 -ml-1 md:-ml-2">
               <Lottie options={infinityOptions} />
@@ -63,14 +66,6 @@ const Navbar = () => {
               </a>
             </li>
           ))}
-          <li>
-            <a 
-              href="#Enquiry" 
-              className="bg-lightBlue hover:bg-lightBlue500 text-white px-5 py-2 rounded-full font-bold transition-all transform hover:scale-105 active:scale-95"
-            >
-              Get Started
-            </a>
-          </li>
         </ul>
 
         {/* Hamburger Menu for Mobile */}
@@ -100,13 +95,6 @@ const Navbar = () => {
               {link.name}
             </a>
           ))}
-          <a
-            href="#Enquiry"
-            className="mt-4 bg-lightBlue text-white px-8 py-3 rounded-full font-bold text-xl"
-            onClick={() => setMenuOpen(false)}
-          >
-            Get Started
-          </a>
         </div>
       </div>
     </nav>

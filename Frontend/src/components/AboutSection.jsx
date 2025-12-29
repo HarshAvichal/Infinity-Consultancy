@@ -147,7 +147,7 @@ const AboutSection = () => {
                   <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
                     <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-full border border-blue-100">
                       <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                      <span className="text-blue-700 font-bold text-sm">10+ Years Experience</span>
+                      <span className="text-blue-700 font-bold text-sm">36+ Years Experience</span>
                     </div>
                   </div>
                 </div>
