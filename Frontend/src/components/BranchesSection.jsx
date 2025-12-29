@@ -85,7 +85,7 @@ const BranchesSection = () => {
                     <h3 className="text-2xl font-black text-deepBlueHead">{branches[0].city}</h3>
                     <div className="flex items-center gap-2 mt-1">
                       <span className="bg-lightBlue text-white px-3 py-1 rounded-full text-xs font-bold">
-                        HEADQUARTERS
+                        MAIN OFFICE
                       </span>
                       <span className="text-lightBlue text-sm font-bold">{branches[0].year}</span>
                     </div>
