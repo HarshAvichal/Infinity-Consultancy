@@ -168,15 +168,31 @@ app.post("/send-email", rateLimiter, async (req, res) => {
   // Validate email configuration
   if (!transporter) {
     console.error("❌ Email transporter not initialized. Check EMAIL_HOST, EMAIL_USER, EMAIL_PASS.");
-    return res.status(500).json({ success: false, message: "Server configuration error." });
+    console.error("📋 Current env vars:", {
+      EMAIL_HOST: process.env.EMAIL_HOST ? "✅ Set" : "❌ Missing",
+      EMAIL_USER: process.env.EMAIL_USER ? "✅ Set" : "❌ Missing",
+      EMAIL_PASS: process.env.EMAIL_PASS ? "✅ Set" : "❌ Missing",
+      EMAIL_PORT: process.env.EMAIL_PORT || "587 (default)"
+    });
+    return res.status(500).json({ 
+      success: false, 
+      message: "Server configuration error: Email service not configured." 
+    });
   }
 
   // Validate recipients
   const recipients = [process.env.EMAIL_RECIPIENT_1, process.env.EMAIL_RECIPIENT_2].filter(Boolean);
   if (recipients.length === 0) {
     console.error("❌ No valid email recipients configured.");
-    return res.status(500).json({ success: false, message: "Server configuration error: No recipients configured." });
+    console.error("📋 EMAIL_RECIPIENT_1:", process.env.EMAIL_RECIPIENT_1 || "Missing");
+    console.error("📋 EMAIL_RECIPIENT_2:", process.env.EMAIL_RECIPIENT_2 || "Missing");
+    return res.status(500).json({ 
+      success: false, 
+      message: "Server configuration error: No recipients configured." 
+    });
   }
+  
+  console.log(`✅ Email configuration validated. Recipients: ${recipients.join(', ')}`);
 
   // HTML escape function to prevent XSS
   const escapeHtml = (text) => {
@@ -265,8 +281,18 @@ app.post("/send-email", rateLimiter, async (req, res) => {
       `
     };
 
+    // Verify transporter before sending
+    try {
+      await transporter.verify();
+      console.log("✅ SMTP connection verified");
+    } catch (verifyError) {
+      console.error("❌ SMTP verification failed:", verifyError);
+      throw new Error(`SMTP connection failed: ${verifyError.message}`);
+    }
+
     // Send email with timeout wrapper
     try {
+      console.log(`📧 Attempting to send email...`);
       const sendEmailPromise = transporter.sendMail(mailOptions);
       const timeoutPromise = new Promise((_, reject) => 
         setTimeout(() => reject(new Error("Email sending timeout after 25 seconds")), 25000)
