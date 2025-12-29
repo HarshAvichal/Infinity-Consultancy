@@ -297,12 +297,8 @@ const EnquirySection = () => {
 
             {/* Business Hours */}
             <div className="bg-gradient-to-br from-lightBlue/20 to-transparent p-6 md:p-8 rounded-3xl border border-lightBlue/20">
-              <div className="flex items-center justify-between lg:block mb-4">
+              <div className="mb-4">
                 <h4 className="text-white font-bold text-sm md:text-base">Business Hours</h4>
-                <p className="text-white text-xs flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-greenLight animate-pulse"></span>
-                  Open Now
-                </p>
               </div>
               <ul className="space-y-2">
                 <li className="flex justify-between text-xs md:text-sm"><span className="text-gray-400">Mon - Sat:</span> <span className="text-white">9:30 AM - 6:30 PM</span></li>
