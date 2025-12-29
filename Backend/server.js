@@ -56,8 +56,6 @@ const rateLimiter = (req, res, next) => {
 const allowedOrigins = [
   process.env.FRONTEND_URL?.trim().replace(/\/$/, ""), 
   "https://infinity-consultancy-blm.vercel.app",
-  "https://infinity-consultancy-fawn.vercel.app",
-  "https://infinity-consultancy.vercel.app",
   "http://localhost:5173",
   "http://localhost:3000"
 ].filter(Boolean);
