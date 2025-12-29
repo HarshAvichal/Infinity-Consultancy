@@ -90,7 +90,7 @@ const HeroSection = () => {
           <div className="absolute w-[80%] h-[80%] bg-lightBlue/20 rounded-full blur-[100px] animate-pulse"></div>
           <div className="relative z-10 w-full max-w-[500px]">
             <Lottie options={animationOptions} />
-            {/* Floating Trust Card */}
+            {/* Floating Trust Card - Desktop */}
             <a 
               href="#About" 
               className="absolute -bottom-6 -left-6 md:-left-12 bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-2xl shadow-2xl hidden sm:block animate-bounce-slow hover:bg-white/20 hover:scale-105 transition-all cursor-pointer group/card"
@@ -100,6 +100,23 @@ const HeroSection = () => {
                 <div>
                   <p className="text-white font-bold text-sm">Nevil Gandhi</p>
                   <p className="text-lightBlue text-xs">Director & Advisor</p>
+                </div>
+              </div>
+            </a>
+
+            {/* Circular Director Badge - Mobile Only */}
+            <a 
+              href="#About" 
+              className="absolute bottom-2 -left-4 sm:hidden bg-white/10 backdrop-blur-xl border-2 border-lightBlue/50 rounded-full shadow-2xl hover:scale-110 transition-all cursor-pointer group/badge"
+              title="Meet our Director"
+            >
+              <div className="relative">
+                <img src={directorImage} alt="Nevil Gandhi" className="w-16 h-16 rounded-full object-cover" />
+                {/* Pulsing ring */}
+                <div className="absolute inset-0 rounded-full bg-lightBlue/20 animate-ping"></div>
+                {/* Badge overlay */}
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-greenLight rounded-full border-2 border-deepBlue flex items-center justify-center">
+                  <span className="text-deepBlue text-[10px] font-black">✓</span>
                 </div>
               </div>
             </a>
