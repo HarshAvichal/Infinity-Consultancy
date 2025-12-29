@@ -29,8 +29,8 @@ if (process.env.EMAIL_HOST && process.env.EMAIL_USER && process.env.EMAIL_PASS) 
     tls: {
       rejectUnauthorized: false // Allow self-signed certificates if needed
     },
-    debug: false, // Set to true for debugging
-    logger: false // Disable logging to reduce overhead
+    debug: true, // TEMPORARY: Enable for debugging
+    logger: true // TEMPORARY: Enable for debugging
   });
   console.log(`✅ Nodemailer initialized with ${process.env.EMAIL_HOST}:${emailPort}`);
 } else {
