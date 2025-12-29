@@ -124,7 +124,7 @@ const AboutSection = () => {
                     <h2 className="text-5xl md:text-6xl font-black text-deepBlueHead">Nevil Gandhi</h2>
                   </div>
                   
-                  <div className="bg-gray-50 border-l-4 border-lightBlue p-6 rounded-r-2xl">
+                  <div className="bg-gray-50 border-l-4 border-lightBlue p-6 rounded-r-2xl min-h-[100px] md:min-h-0">
                     <h3 className="text-2xl text-deepBlueHead font-semibold">
                       I am a{" "}
                       <span className="text-lightBlue font-black underline decoration-lightBlue/30 underline-offset-8">
