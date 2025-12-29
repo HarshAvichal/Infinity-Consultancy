@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import emailjs from "@emailjs/browser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faLocationDot, faEnvelope, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
@@ -65,43 +64,29 @@ const EnquirySection = () => {
 
     setLoading(true);
     try {
-      // Get EmailJS configuration from environment variables
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+      // Get backend API URL from environment variable or use default
+      const apiUrl = import.meta.env.VITE_API_URL || 'https://infinity-consultancy-backend.onrender.com';
+      
+      console.log("📧 Sending email via Nodemailer backend...");
+      
+      // Send data to Nodemailer backend
+      const response = await fetch(`${apiUrl}/send-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-      if (!serviceId || !templateId || !publicKey) {
-        console.error("❌ EmailJS configuration missing!");
-        setLoading(false);
-        toast.error("Email service is not configured. Please contact support.", { 
-          position: "top-right", 
-          autoClose: 8000 
-        });
-        return;
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to send email');
       }
 
-      console.log("📧 Sending email via EmailJS...");
+      console.log("✅ Email sent successfully:", data);
       
-      // Prepare template parameters for EmailJS
-      const templateParams = {
-        from_name: `${formData.firstName} ${formData.lastName}`,
-        from_email: formData.email,
-        phone: formData.phone,
-        message: formData.userMessage,
-        to_email: "nevil04@gmail.com", // Recipient email
-      };
-
-      // Send email using EmailJS
-      const response = await emailjs.send(
-        serviceId,
-        templateId,
-        templateParams,
-        publicKey
-      );
-
-      console.log("✅ Email sent successfully:", response);
-      
-      toast.success("Thank you! Your inquiry has been sent successfully.", {
+      toast.success(data.message || "Thank you! Your inquiry has been sent successfully.", {
         position: "top-right",
         autoClose: 5000,
       });
@@ -119,9 +104,7 @@ const EnquirySection = () => {
       
       let errorMessage = "Failed to send message. Please try again later.";
       
-      if (error.text) {
-        errorMessage = `Email service error: ${error.text}`;
-      } else if (error.message) {
+      if (error.message) {
         errorMessage = error.message;
       }
       
