@@ -54,7 +54,7 @@ const AboutSection = () => {
   };
 
   return (
-    <section id="About" className="bg-[#f8fafc] py-24 overflow-hidden">
+    <section id="About" className="bg-[#f8fafc] pt-12 pb-24 overflow-hidden">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16 space-y-4">
