@@ -15,7 +15,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative bg-deepBlue min-h-screen flex items-center justify-center overflow-hidden pt-28 md:pt-20">
+    <section className="relative bg-deepBlue min-h-screen flex items-center justify-center overflow-hidden pt-20">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-lightBlue/10 rounded-full blur-[120px]"></div>
@@ -69,13 +69,13 @@ const HeroSection = () => {
           {/* Stats or Trust badges */}
           <div className="pt-8 flex items-center justify-center md:justify-start gap-8 opacity-60">
             <div>
-              <p className="text-white text-2xl font-bold">36+</p>
+              <p className="text-white text-2xl font-bold">10+</p>
               <p className="text-white/60 text-sm">Years Exp.</p>
             </div>
             <div className="w-px h-8 bg-white/20"></div>
             <div>
-              <p className="text-white text-2xl font-bold">1000+</p>
-              <p className="text-white/60 text-sm">Customers</p>
+              <p className="text-white text-2xl font-bold">500+</p>
+              <p className="text-white/60 text-sm">Happy Clients</p>
             </div>
             <div className="w-px h-8 bg-white/20"></div>
             <div>
