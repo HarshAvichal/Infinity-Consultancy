@@ -31,7 +31,7 @@ const HeroSection = () => {
             </div>
           </div>
           
-          <h1 className="text-white font-extrabold text-4xl md:text-6xl leading-[1.1] tracking-tight">
+          <h1 className="text-white font-extrabold text-4xl md:text-6xl leading-[1.1] tracking-tight min-h-[140px] md:min-h-0">
             Expert <span className="text-lightBlue">Tax Guidance</span> <br />
             <span className="text-3xl md:text-5xl opacity-90">
               for Your{" "}
