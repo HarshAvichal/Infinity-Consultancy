@@ -115,19 +115,19 @@ const BranchesSection = () => {
           </div>
 
           {/* Stats/Impact Section */}
-          <div className="mt-16 bg-gradient-to-r from-lightBlue to-purple-500 rounded-3xl p-8 md:p-12 text-white text-center">
-            <div className="grid grid-cols-3 gap-6 md:gap-8">
-              <div>
-                <div className="text-3xl md:text-5xl font-black mb-2">5+</div>
-                <div className="text-white/80 text-sm md:text-base">Locations</div>
+          <div className="mt-16 border-2 border-lightBlue/20 rounded-2xl p-6 md:p-10 bg-white/50 backdrop-blur-sm">
+            <div className="grid grid-cols-3 gap-4 md:gap-8 divide-x divide-lightBlue/20">
+              <div className="text-center">
+                <div className="text-2xl md:text-4xl font-bold text-lightBlue mb-1">5+</div>
+                <div className="text-grayText text-xs md:text-sm font-medium">Locations</div>
               </div>
-              <div>
-                <div className="text-3xl md:text-5xl font-black mb-2">36+</div>
-                <div className="text-white/80 text-sm md:text-base">Years</div>
+              <div className="text-center">
+                <div className="text-2xl md:text-4xl font-bold text-lightBlue mb-1">36+</div>
+                <div className="text-grayText text-xs md:text-sm font-medium">Years</div>
               </div>
-              <div>
-                <div className="text-3xl md:text-5xl font-black mb-2">1000+</div>
-                <div className="text-white/80 text-sm md:text-base">Clients</div>
+              <div className="text-center">
+                <div className="text-2xl md:text-4xl font-bold text-lightBlue mb-1">1000+</div>
+                <div className="text-grayText text-xs md:text-sm font-medium">Clients</div>
               </div>
             </div>
           </div>
