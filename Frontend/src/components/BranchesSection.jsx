@@ -70,12 +70,7 @@ const BranchesSection = () => {
 
           {/* Headquarters Card (Bilimora) */}
           <div className="mb-12">
-            <div className="relative">
-              <div className="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-lightBlue rounded-full z-10 animate-pulse"></div>
-              <div className="absolute left-1/2 -translate-x-1/2 w-8 h-8 bg-lightBlue/20 rounded-full animate-ping"></div>
-            </div>
-            
-            <div className="flex justify-center mt-8">
+            <div className="flex justify-center">
               <div className="group bg-gradient-to-br from-lightBlue/10 to-purple-500/10 border-2 border-lightBlue p-6 md:p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 max-w-md w-full">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-12 h-12 bg-lightBlue rounded-xl flex items-center justify-center">
