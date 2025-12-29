@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import emailjs from "@emailjs/browser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faLocationDot, faEnvelope, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
@@ -65,50 +65,48 @@ const EnquirySection = () => {
 
     setLoading(true);
     try {
-      // Try to get backend URL from environment, with fallback
-      const backendUrl = import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_URL;
-      console.log("🔍 Frontend Debug - Backend URL:", backendUrl);
-      console.log("🔍 Frontend Debug - All env vars:", import.meta.env);
-      console.log("🔍 Frontend Debug - Form Data:", formData);
-      
-      if (!backendUrl) {
-        console.error("❌ Backend URL is missing!");
+      // Get EmailJS configuration from environment variables
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+      if (!serviceId || !templateId || !publicKey) {
+        console.error("❌ EmailJS configuration missing!");
         setLoading(false);
-        toast.error("Backend server is not configured. Please contact support.", { 
+        toast.error("Email service is not configured. Please contact support.", { 
           position: "top-right", 
           autoClose: 8000 
         });
         return;
       }
 
-      // First, verify backend is reachable
-      try {
-        console.log(`🔍 Checking backend health at: ${backendUrl}/health`);
-        await axios.get(`${backendUrl}/health`, { timeout: 5000 });
-        console.log("✅ Backend is reachable");
-      } catch (healthError) {
-        console.warn("⚠️ Backend health check failed:", healthError.message);
-        // Continue anyway - health check is just a warning
-      }
+      console.log("📧 Sending email via EmailJS...");
+      
+      // Prepare template parameters for EmailJS
+      const templateParams = {
+        from_name: `${formData.firstName} ${formData.lastName}`,
+        from_email: formData.email,
+        phone: formData.phone,
+        message: formData.userMessage,
+        to_email: "nevil04@gmail.com", // Recipient email
+      };
 
-      console.log(`📤 Sending request to: ${backendUrl}/send-email`);
-      const response = await axios.post(
-        `${backendUrl}/send-email`, 
-        formData,
-        {
-          timeout: 30000, // 30 seconds timeout
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        }
+      // Send email using EmailJS
+      const response = await emailjs.send(
+        serviceId,
+        templateId,
+        templateParams,
+        publicKey
       );
+
+      console.log("✅ Email sent successfully:", response);
       
-      console.log("✅ Response received:", response.data);
-      
-      toast.success(response.data.message || "Thank you! Your inquiry has been sent.", {
+      toast.success("Thank you! Your inquiry has been sent successfully.", {
         position: "top-right",
         autoClose: 5000,
       });
+      
+      // Reset form
       setFormData({
         firstName: "",
         lastName: "",
@@ -117,25 +115,12 @@ const EnquirySection = () => {
         userMessage: "",
       });
     } catch (error) {
-      console.error("❌ Form submission error:", error);
-      console.error("❌ Error details:", {
-        message: error.message,
-        code: error.code,
-        response: error.response?.data,
-        status: error.response?.status,
-        config: error.config?.url
-      });
+      console.error("❌ Email sending error:", error);
       
       let errorMessage = "Failed to send message. Please try again later.";
       
-      if (error.code === 'ECONNABORTED' || error.message?.includes('timeout')) {
-        errorMessage = "Request timed out. Please check your connection and try again.";
-      } else if (error.code === 'ERR_NETWORK' || error.message?.includes('Network Error')) {
-        errorMessage = "Network error. Please check your internet connection and backend URL.";
-      } else if (error.response?.status === 429) {
-        errorMessage = "Too many requests. Please wait a few minutes and try again.";
-      } else if (error.response?.data?.message) {
-        errorMessage = error.response.data.message;
+      if (error.text) {
+        errorMessage = `Email service error: ${error.text}`;
       } else if (error.message) {
         errorMessage = error.message;
       }
@@ -143,7 +128,6 @@ const EnquirySection = () => {
       toast.error(errorMessage, { position: "top-right", autoClose: 6000 });
     } finally {
       setLoading(false);
-      console.log("🏁 Form submission finished, loading set to false");
     }
   };
 
