@@ -96,9 +96,6 @@ const BranchesSection = () => {
 
           {/* Branch Offices Grid */}
           <div className="relative">
-            {/* Vertical line connecting to branches */}
-            <div className="absolute left-1/2 -translate-x-1/2 w-1 h-12 bg-gradient-to-b from-lightBlue to-transparent hidden md:block"></div>
-            
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-12">
               {branches.slice(1).map((branch, index) => (
                 <div
