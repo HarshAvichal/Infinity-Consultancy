@@ -8,22 +8,31 @@ config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Initialize Nodemailer transporter
+// Initialize Nodemailer transporter with optimized settings for Render
 let transporter;
 if (process.env.EMAIL_HOST && process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+  const emailPort = parseInt(process.env.EMAIL_PORT || '587');
+  const isSecure = emailPort === 465;
+  
   transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
-    port: parseInt(process.env.EMAIL_PORT || '587'),
-    secure: false, // true for 465, false for other ports
+    port: emailPort,
+    secure: isSecure, // true for 465, false for other ports
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
-    connectionTimeout: 10000, // 10 seconds to establish connection
-    socketTimeout: 30000, // 30 seconds for socket operations
-    greetingTimeout: 10000, // 10 seconds for greeting
+    connectionTimeout: 60000, // 60 seconds to establish connection
+    socketTimeout: 60000, // 60 seconds for socket operations
+    greetingTimeout: 30000, // 30 seconds for greeting
+    requireTLS: !isSecure, // Require TLS for non-secure ports
+    tls: {
+      rejectUnauthorized: false // Allow self-signed certificates if needed
+    },
+    debug: false, // Set to true for debugging
+    logger: false // Disable logging to reduce overhead
   });
-  console.log("✅ Nodemailer initialized with Gmail SMTP");
+  console.log(`✅ Nodemailer initialized with ${process.env.EMAIL_HOST}:${emailPort}`);
 } else {
   console.error("❌ Email configuration missing (EMAIL_HOST, EMAIL_USER, EMAIL_PASS)");
 }
@@ -281,21 +290,16 @@ app.post("/send-email", rateLimiter, async (req, res) => {
       `
     };
 
-    // Verify transporter before sending
-    try {
-      await transporter.verify();
-      console.log("✅ SMTP connection verified");
-    } catch (verifyError) {
-      console.error("❌ SMTP verification failed:", verifyError);
-      throw new Error(`SMTP connection failed: ${verifyError.message}`);
-    }
+    // Skip verification to avoid timeout - just try to send directly
+    // Verification can timeout on Render, but sending might still work
+    console.log("📧 Proceeding with email send (skipping verification to avoid timeout)...");
 
-    // Send email with timeout wrapper
+    // Send email with extended timeout for Render
     try {
       console.log(`📧 Attempting to send email...`);
       const sendEmailPromise = transporter.sendMail(mailOptions);
       const timeoutPromise = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error("Email sending timeout after 25 seconds")), 25000)
+        setTimeout(() => reject(new Error("Email sending timeout after 60 seconds")), 60000)
       );
       
       const info = await Promise.race([sendEmailPromise, timeoutPromise]);
