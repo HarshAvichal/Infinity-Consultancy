@@ -132,9 +132,6 @@ const ServicesSection = () => {
               <p className="text-xs md:text-lg text-grayText leading-relaxed line-clamp-3 md:line-clamp-none">
                 {service.description}
               </p>
-              <div className="mt-4 hidden md:flex items-center gap-2 text-lightBlue font-bold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                Learn More <span>→</span>
-              </div>
             </div>
           ))}
         </div>
