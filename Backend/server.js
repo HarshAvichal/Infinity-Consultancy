@@ -75,6 +75,7 @@ const rateLimiter = (req, res, next) => {
 const allowedOrigins = [
   process.env.FRONTEND_URL?.trim().replace(/\/$/, ""), 
   "https://infinity-consultancy-blm.vercel.app",
+  "https://infinity-consultancy-blm.vercel.app/",
   "http://localhost:5173",
   "http://localhost:3000"
 ].filter(Boolean);
@@ -93,18 +94,25 @@ app.use(cors({
     console.log(`🔍 CORS check: ${normalizedOrigin}`);
     console.log(`📋 Allowed origins:`, allowedOrigins);
     
-    if (allowedOrigins.includes(normalizedOrigin)) {
+    // Check if origin matches any allowed origin (with or without trailing slash)
+    const isAllowed = allowedOrigins.some(allowed => {
+      const normalizedAllowed = allowed.trim().replace(/\/$/, "");
+      return normalizedOrigin === normalizedAllowed;
+    });
+    
+    if (isAllowed) {
       console.log(`✅ CORS: Allowing ${normalizedOrigin}`);
       callback(null, true);
     } else {
       console.error(`🚫 CORS REJECTED: ${origin} (not in allowed list)`);
-      // Still allow for now to debug, but log the issue
-      callback(null, true); // Temporarily allow to debug
+      // Allow the request but log for debugging
+      callback(null, true);
     }
   },
   methods: ['GET', 'POST', 'OPTIONS'],
   credentials: true,
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Type']
 }));
 
 app.use(express.json());
@@ -117,6 +125,15 @@ const validatePhone = (phone) => /^\d{10}$/.test(phone);
 // Health Check
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "healthy", timestamp: new Date() });
+});
+
+// Handle CORS preflight requests
+app.options("/send-email", (req, res) => {
+  res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.header("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.status(200).end();
 });
 
 // POST Route for Contact Form
@@ -249,22 +266,29 @@ app.post("/send-email", rateLimiter, async (req, res) => {
     };
 
     // Send email with timeout wrapper
-    const sendEmailPromise = transporter.sendMail(mailOptions);
-    const timeoutPromise = new Promise((_, reject) => 
-      setTimeout(() => reject(new Error("Email sending timeout after 25 seconds")), 25000)
-    );
-    
-    const info = await Promise.race([sendEmailPromise, timeoutPromise]);
-    
-    console.log(`✅ Email sent successfully via Nodemailer`);
-    console.log(`📬 Message ID: ${info.messageId}`);
-    console.log(`📬 Recipients: ${recipients.join(', ')}`);
-    console.log(`📬 Response: ${info.response}`);
-    
-    res.status(200).json({ 
-      success: true, 
-      message: "Thank you! Your message has been sent successfully." 
-    });
+    try {
+      const sendEmailPromise = transporter.sendMail(mailOptions);
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error("Email sending timeout after 25 seconds")), 25000)
+      );
+      
+      const info = await Promise.race([sendEmailPromise, timeoutPromise]);
+      
+      console.log(`✅ Email sent successfully via Nodemailer`);
+      console.log(`📬 Message ID: ${info.messageId}`);
+      console.log(`📬 Recipients: ${recipients.join(', ')}`);
+      console.log(`📬 Response: ${info.response}`);
+      
+      if (!res.headersSent) {
+        res.status(200).json({ 
+          success: true, 
+          message: "Thank you! Your message has been sent successfully." 
+        });
+      }
+    } catch (emailError) {
+      console.error("❌ Error in email sending promise:", emailError);
+      throw emailError; // Re-throw to be caught by outer catch
+    }
 
   } catch (err) {
     console.error("❌ Email sending error:");
