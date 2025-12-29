@@ -61,7 +61,7 @@ const GallerySection = () => {
 
         {/* Gallery Grid */}
         {galleryImages.length > 0 ? (
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-3xl mx-auto">
             {galleryImages.length === 1 ? (
               // Featured single image layout
               <div className="relative group">
@@ -77,7 +77,7 @@ const GallerySection = () => {
                     <img
                       src={galleryImages[0].src}
                       alt={galleryImages[0].alt || galleryImages[0].title || "Gallery image"}
-                      className="w-full h-auto object-cover rounded-2xl transition-transform duration-500 group-hover:scale-[1.01]"
+                      className="w-full h-auto max-h-[500px] object-contain rounded-2xl transition-transform duration-500 group-hover:scale-[1.01]"
                       loading="eager"
                     />
                     
