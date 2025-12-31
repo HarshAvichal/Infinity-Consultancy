@@ -117,17 +117,17 @@ const AboutSection = () => {
           >
             {/* Slide 1 - Director Info */}
             <SwiperSlide className="rounded-[40px] bg-white overflow-hidden">
-              <div className="p-8 md:p-20 flex flex-col lg:flex-row items-center gap-16 min-h-[550px]">
-                <div className="lg:w-1/2 space-y-8 text-center lg:text-left">
+              <div className="p-6 md:p-20 flex flex-col lg:flex-row items-center gap-8 md:gap-16 min-h-[400px] md:min-h-[550px]">
+                <div className="lg:w-1/2 space-y-4 md:space-y-8 text-center lg:text-left">
                   <div className="space-y-2">
-                    <p className="text-lightBlue font-bold text-lg">Leadership</p>
-                    <h2 className="text-5xl md:text-6xl font-black text-deepBlueHead">Nevil Gandhi</h2>
+                    <p className="text-lightBlue font-bold text-sm md:text-lg">Leadership</p>
+                    <h2 className="text-3xl md:text-6xl font-black text-deepBlueHead">Nevil Gandhi</h2>
                   </div>
                   
-                  <div className="bg-gray-50 border-l-4 border-lightBlue p-6 rounded-r-2xl min-h-[140px] md:min-h-0 flex items-center">
-                    <h3 className="text-2xl text-deepBlueHead font-semibold">
+                  <div className="bg-gray-50 border-l-4 border-lightBlue p-4 md:p-6 rounded-r-2xl min-h-[100px] md:min-h-0 flex items-center">
+                    <h3 className="text-lg md:text-2xl text-deepBlueHead font-semibold">
                       I am a{" "}
-                      <span className="text-lightBlue font-black underline decoration-lightBlue/30 underline-offset-8 inline-block min-w-[200px]">
+                      <span className="text-lightBlue font-black underline decoration-lightBlue/30 underline-offset-4 md:underline-offset-8 inline-block min-w-[150px] md:min-w-[200px]">
                         <ReactTyped
                           strings={["Tax Consultant", "Financial Advisor", "Strategic Planner", "Growth Specialist"]}
                           typeSpeed={50}
@@ -138,27 +138,27 @@ const AboutSection = () => {
                     </h3>
                   </div>
 
-                  <p className="text-grayText text-lg leading-relaxed font-medium">
+                  <p className="text-grayText text-base md:text-lg leading-relaxed font-medium">
                     With over a decade of technical expertise, I merge strategic clarity 
                     with personalized financial roadmaps to ensure our clients don't just 
                     survive the market—they lead it.
                   </p>
                   
-                  <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
-                    <div className="flex items-center gap-2 bg-blue-50 px-4 py-2 rounded-full border border-blue-100">
+                  <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-2 md:pt-4">
+                    <div className="flex items-center gap-2 bg-blue-50 px-3 md:px-4 py-1.5 md:py-2 rounded-full border border-blue-100">
                       <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
-                      <span className="text-blue-700 font-bold text-sm">36+ Years Experience</span>
+                      <span className="text-blue-700 font-bold text-xs md:text-sm">36+ Years Experience</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="lg:w-1/2 relative">
+                <div className="lg:w-1/2 relative w-full md:w-auto">
                   <div className="absolute -inset-4 bg-gradient-to-tr from-lightBlue to-greenLight rounded-[3rem] opacity-10 blur-2xl"></div>
                   <div className="relative z-10">
                     <img
                       src={directorImage}
                       alt="Nevil Gandhi"
-                      className="rounded-[2.5rem] shadow-2xl w-full max-w-[420px] mx-auto border-8 border-white object-cover aspect-[4/5]"
+                      className="rounded-[2rem] md:rounded-[2.5rem] shadow-2xl w-full max-w-[280px] md:max-w-[420px] mx-auto border-4 md:border-8 border-white object-cover aspect-[4/5]"
                     />
                     <div className="absolute -bottom-6 -right-6 md:-right-10 bg-white p-6 rounded-3xl shadow-xl border border-gray-100 hidden md:block">
                       <p className="font-black text-2xl text-deepBlueHead">Director</p>
@@ -171,27 +171,27 @@ const AboutSection = () => {
 
             {/* Slide 2 - Vision */}
             <SwiperSlide className="rounded-[40px] bg-white overflow-hidden">
-              <div className="p-8 md:p-20 flex flex-col lg:flex-row items-center gap-16 min-h-[550px]">
-                <div className="lg:w-1/2 text-center lg:text-left space-y-8">
+              <div className="p-6 md:p-20 flex flex-col lg:flex-row items-center gap-8 md:gap-16 min-h-[400px] md:min-h-[550px]">
+                <div className="lg:w-1/2 text-center lg:text-left space-y-4 md:space-y-8">
                   <div className="space-y-2">
-                    <p className="text-green-500 font-bold text-lg italic">Future Focused</p>
-                    <h2 className="text-5xl md:text-6xl font-black text-deepBlueHead">Our Vision</h2>
+                    <p className="text-green-500 font-bold text-sm md:text-lg italic">Future Focused</p>
+                    <h2 className="text-3xl md:text-6xl font-black text-deepBlueHead">Our Vision</h2>
                   </div>
-                  <p className="text-grayText text-xl leading-relaxed">
+                  <p className="text-grayText text-base md:text-xl leading-relaxed">
                     To be the catalyst for financial freedom, turning complex fiscal 
                     challenges into transparent opportunities for every client we serve.
                   </p>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-3 md:gap-4">
                     {["Transparency", "Growth", "Innovation", "Security"].map((v) => (
-                      <div key={v} className="flex items-center gap-3 bg-green-50/50 p-4 rounded-2xl border border-green-100">
+                      <div key={v} className="flex items-center gap-2 md:gap-3 bg-green-50/50 p-3 md:p-4 rounded-xl md:rounded-2xl border border-green-100">
                         <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                        <span className="font-bold text-gray-700">{v}</span>
+                        <span className="font-bold text-gray-700 text-sm md:text-base">{v}</span>
                       </div>
                     ))}
                   </div>
                 </div>
                 <div className="lg:w-1/2 flex justify-center">
-                  <div className="w-full max-w-[450px] bg-gradient-to-br from-green-50 to-blue-50 rounded-full p-12">
+                  <div className="w-full max-w-[280px] md:max-w-[450px] bg-gradient-to-br from-green-50 to-blue-50 rounded-full p-8 md:p-12">
                     <Lottie options={visionOptions} />
                   </div>
                 </div>
@@ -200,27 +200,27 @@ const AboutSection = () => {
 
             {/* Slide 3 - Mission */}
             <SwiperSlide className="rounded-[40px] bg-white overflow-hidden">
-              <div className="p-8 md:p-20 flex flex-col lg:flex-row items-center gap-16 min-h-[550px]">
-                <div className="lg:w-1/2 text-center lg:text-left space-y-8">
+              <div className="p-6 md:p-20 flex flex-col lg:flex-row items-center gap-8 md:gap-16 min-h-[400px] md:min-h-[550px]">
+                <div className="lg:w-1/2 text-center lg:text-left space-y-4 md:space-y-8">
                   <div className="space-y-2">
-                    <p className="text-lightBlue font-bold text-lg italic">Our Purpose</p>
-                    <h2 className="text-5xl md:text-6xl font-black text-deepBlueHead">Our Mission</h2>
+                    <p className="text-lightBlue font-bold text-sm md:text-lg italic">Our Purpose</p>
+                    <h2 className="text-3xl md:text-6xl font-black text-deepBlueHead">Our Mission</h2>
                   </div>
-                  <p className="text-grayText text-xl leading-relaxed">
+                  <p className="text-grayText text-base md:text-xl leading-relaxed">
                     Empowering clients through integrity-driven consultancy, 
                     leveraging cutting-edge financial tools and a relentless 
                     commitment to excellence.
                   </p>
-                  <div className="flex flex-wrap justify-center lg:justify-start gap-3">
+                  <div className="flex flex-wrap justify-center lg:justify-start gap-2 md:gap-3">
                     {["Client First", "Ethical Growth", "Modern Solutions"].map((tag) => (
-                      <span key={tag} className="bg-deepBlue text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-lg shadow-blue-900/20">
+                      <span key={tag} className="bg-deepBlue text-white px-4 md:px-6 py-2 md:py-3 rounded-xl md:rounded-2xl font-bold text-xs md:text-sm shadow-lg shadow-blue-900/20">
                         {tag}
                       </span>
                     ))}
                   </div>
                 </div>
                 <div className="lg:w-1/2 flex justify-center">
-                  <div className="w-full max-w-[450px] bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full p-12">
+                  <div className="w-full max-w-[280px] md:max-w-[450px] bg-gradient-to-br from-blue-50 to-indigo-50 rounded-full p-8 md:p-12">
                     <Lottie options={missionOptions} />
                   </div>
                 </div>
