@@ -31,7 +31,7 @@ const MarqueeSection = () => {
       <div className="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-[#f8fafc] via-[#f8fafc]/80 to-transparent z-10"></div>
 
       <div className="flex overflow-hidden group">
-        <div className="flex items-center space-x-16 animate-marquee whitespace-nowrap py-2">
+        <div className="flex items-center space-x-16 animate-marquee-mobile md:animate-marquee whitespace-nowrap py-2">
           {marqueeItems.map((item, index) => (
             <span
               key={index}
