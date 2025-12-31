@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import emailjs from "@emailjs/browser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faLocationDot, faEnvelope, faPaperPlane } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from "react-toastify";
@@ -63,30 +64,30 @@ const EnquirySection = () => {
     if (!validateForm()) return;
 
     setLoading(true);
+    
     try {
-      // Get backend API URL from environment variable or use default
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://infinity-consultancy-backend.onrender.com';
+      console.log("📧 Sending email via EmailJS...");
       
-      console.log("📧 Sending email via Nodemailer backend...");
+      // Prepare template parameters for EmailJS
+      const templateParams = {
+        from_name: formData.firstName,
+        last_name: formData.lastName,
+        user_email: formData.email,
+        phone: formData.phone,
+        message: formData.userMessage,
+      };
+
+      // Send email using EmailJS
+      const response = await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        templateParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
+
+      console.log("✅ Email sent successfully:", response);
       
-      // Send data to Nodemailer backend
-      const response = await fetch(`${apiUrl}/send-email`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to send email');
-      }
-
-      console.log("✅ Email sent successfully:", data);
-      
-      toast.success(data.message || "Thank you! Your inquiry has been sent successfully.", {
+      toast.success("Thank you! Your inquiry has been sent successfully.", {
         position: "top-right",
         autoClose: 5000,
       });
@@ -99,13 +100,14 @@ const EnquirySection = () => {
         phone: "",
         userMessage: "",
       });
+      
     } catch (error) {
-      console.error("❌ Email sending error:", error);
+      console.error("❌ EmailJS error:", error);
       
       let errorMessage = "Failed to send message. Please try again later.";
       
-      if (error.message) {
-        errorMessage = error.message;
+      if (error.text) {
+        errorMessage = error.text;
       }
       
       toast.error(errorMessage, { position: "top-right", autoClose: 6000 });
