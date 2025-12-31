@@ -25,10 +25,10 @@ const MarqueeSection = () => {
   ];
 
   return (
-    <section className="bg-[#f8fafc] border-y border-gray-100 py-10 overflow-hidden relative z-20 shadow-[0_15px_50px_-15px_rgba(0,0,0,0.08)]">
+    <section className="bg-[#f8fafc] border-y border-gray-100 py-10 overflow-hidden relative z-20 md:shadow-[0_15px_50px_-15px_rgba(0,0,0,0.08)]">
       {/* Decorative gradient overlays for smooth fading on edges */}
-      <div className="absolute inset-y-0 left-0 w-48 bg-gradient-to-r from-[#f8fafc] via-[#f8fafc]/80 to-transparent z-10"></div>
-      <div className="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-[#f8fafc] via-[#f8fafc]/80 to-transparent z-10"></div>
+      <div className="absolute inset-y-0 left-0 w-16 md:w-48 bg-gradient-to-r from-[#f8fafc] via-[#f8fafc]/80 to-transparent z-10"></div>
+      <div className="absolute inset-y-0 right-0 w-16 md:w-48 bg-gradient-to-l from-[#f8fafc] via-[#f8fafc]/80 to-transparent z-10"></div>
 
       <div className="flex overflow-hidden group">
         <div className="flex items-center space-x-16 animate-marquee-mobile md:animate-marquee whitespace-nowrap py-2">
