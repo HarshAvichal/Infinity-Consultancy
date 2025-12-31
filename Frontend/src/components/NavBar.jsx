@@ -44,6 +44,14 @@ const Navbar = () => {
     { name: "Enquiry", href: "#Enquiry" },
   ];
 
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <>
     <nav 
@@ -54,7 +62,10 @@ const Navbar = () => {
       <div className="relative z-[101] w-full max-w-[1200px] mx-auto flex items-center justify-between px-4 md:px-6">
         <div className="flex items-center gap-1">
           {/* Infinity Consultancy Text */}
-          <a href="/" className="group flex items-center gap-1 md:gap-2 cursor-pointer">
+          <button 
+            onClick={handleLogoClick}
+            className="group flex items-center gap-1 md:gap-2 cursor-pointer bg-transparent border-none p-0"
+          >
             <div className="flex flex-col">
               <span className="text-white text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight group-hover:text-lightBlue transition-colors whitespace-nowrap">
                 INFINITY <span className="text-white group-hover:text-lightBlue">CONSULTANCY</span>
@@ -65,7 +76,7 @@ const Navbar = () => {
             <div className="w-12 h-12 sm:w-16 sm:h-16 -ml-1 md:-ml-2">
               <Lottie options={infinityOptions} />
             </div>
-          </a>
+          </button>
         </div>
 
         {/* Desktop Menu */}
@@ -130,14 +141,24 @@ const Navbar = () => {
         <div className="flex flex-col h-full">
           {/* Header in Mobile Menu */}
           <div className="flex items-center justify-between p-6 border-b border-white/10">
-            <div className="flex items-center gap-2">
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                setMenuOpen(false);
+                window.scrollTo({
+                  top: 0,
+                  behavior: 'smooth'
+                });
+              }}
+              className="flex items-center gap-2 bg-transparent border-none p-0 cursor-pointer"
+            >
               <div className="flex flex-col">
                 <span className="text-white text-lg font-extrabold tracking-tight">
                   INFINITY <span className="text-white">CONSULTANCY</span>
                 </span>
                 <span className="text-white/70 text-[10px] font-medium tracking-wide">Since 1989</span>
               </div>
-            </div>
+            </button>
             <button
               className="text-white text-3xl focus:outline-none"
               onClick={() => setMenuOpen(false)}
