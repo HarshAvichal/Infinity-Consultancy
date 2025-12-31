@@ -15,17 +15,17 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative bg-deepBlue min-h-screen flex items-center justify-center overflow-hidden pt-20">
+    <section className="relative bg-deepBlue min-h-screen flex items-center justify-center overflow-hidden pt-24 md:pt-20">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-lightBlue/10 rounded-full blur-[120px]"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-greenLight/10 rounded-full blur-[120px]"></div>
       </div>
 
-      <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between z-10 space-y-12 md:space-y-0">
+      <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between z-10 space-y-6 md:space-y-12">
         {/* Left Section */}
-        <div className="w-full md:w-1/2 space-y-8 text-center md:text-left">
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+        <div className="w-full md:w-1/2 space-y-4 md:space-y-8 text-center md:text-left">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6">
             <div className="inline-block px-4 py-1 rounded-full bg-lightBlue/10 border border-lightBlue/20 text-lightBlue font-semibold text-sm animate-pulse">
               Trusted Financial Partners
             </div>
@@ -45,13 +45,13 @@ const HeroSection = () => {
             </span>
           </h1>
 
-          <p className="text-grayish/80 text-lg md:text-xl max-w-xl leading-relaxed">
+          <p className="text-grayish/80 text-base md:text-lg lg:text-xl max-w-xl leading-relaxed -mt-2 md:mt-0">
             From Payments to Payouts, We've Got You Covered. Our comprehensive
             financial services ensure every aspect of your finances is managed
             with expertise and precision.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-2 md:pt-4">
             <a
               href="#Enquiry"
               className="w-full sm:w-auto bg-lightBlue hover:bg-lightBlue500 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg shadow-lightBlue/20 transition-all transform hover:-translate-y-1"
@@ -67,7 +67,7 @@ const HeroSection = () => {
           </div>
 
           {/* Stats or Trust badges */}
-          <div className="pt-8 flex items-center justify-center md:justify-start gap-8 opacity-60">
+          <div className="pt-4 md:pt-8 flex items-center justify-center md:justify-start gap-6 md:gap-8 opacity-60">
             <div>
               <p className="text-white text-2xl font-bold">36+</p>
               <p className="text-white/60 text-sm">Years Exp.</p>
