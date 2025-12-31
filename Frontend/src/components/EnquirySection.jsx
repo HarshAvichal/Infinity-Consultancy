@@ -138,66 +138,66 @@ const EnquirySection = () => {
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
           {/* Enquiry Form Card - First on Mobile */}
           <div className="w-full lg:w-2/3 bg-white p-6 md:p-12 rounded-3xl shadow-2xl order-1 lg:order-2">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+              <div className="grid grid-cols-2 gap-4 md:gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-deepBlueHead">First Name</label>
+                  <label className="text-xs md:text-sm font-bold text-deepBlueHead">First Name</label>
                   <input
                     type="text"
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
                     placeholder="Harsh"
-                    className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all"
+                    className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all text-sm"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-deepBlueHead">Last Name</label>
+                  <label className="text-xs md:text-sm font-bold text-deepBlueHead">Last Name</label>
                   <input
                     type="text"
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
                     placeholder="Avichal"
-                    className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all"
+                    className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all text-sm"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-4 md:gap-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-deepBlueHead">Email Address</label>
+                  <label className="text-xs md:text-sm font-bold text-deepBlueHead">Email Address</label>
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="harsh@gmail.com"
-                    className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all"
+                    className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all text-sm"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-deepBlueHead">Phone Number</label>
+                  <label className="text-xs md:text-sm font-bold text-deepBlueHead">Phone Number</label>
                   <input
                     type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="your phone number"
-                    className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all"
+                    className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all text-sm"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-bold text-deepBlueHead">Your Message</label>
+                <label className="text-xs md:text-sm font-bold text-deepBlueHead">Your Message</label>
                 <textarea
                   name="userMessage"
-                  rows="5"
+                  rows="4"
                   value={formData.userMessage}
                   onChange={handleChange}
                   placeholder="I need help with my GST registration or Tax return..."
-                  className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all resize-none"
+                  className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all resize-none text-sm"
                 ></textarea>
               </div>
 
