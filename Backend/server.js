@@ -8,7 +8,6 @@ config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Initialize Nodemailer transporter with optimized settings for Render
 let transporter;
 if (process.env.EMAIL_HOST && process.env.EMAIL_USER && process.env.EMAIL_PASS) {
   const emailPort = parseInt(process.env.EMAIL_PORT || '587');
@@ -17,30 +16,23 @@ if (process.env.EMAIL_HOST && process.env.EMAIL_USER && process.env.EMAIL_PASS) 
   transporter = nodemailer.createTransport({
     host: process.env.EMAIL_HOST,
     port: emailPort,
-    secure: isSecure, // true for 465, false for other ports
+    secure: isSecure,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
-    connectionTimeout: 60000, // 60 seconds to establish connection
-    socketTimeout: 60000, // 60 seconds for socket operations
-    greetingTimeout: 30000, // 30 seconds for greeting
-    requireTLS: !isSecure, // Require TLS for non-secure ports
+    connectionTimeout: 60000,
+    socketTimeout: 60000,
+    greetingTimeout: 30000,
+    requireTLS: !isSecure,
     tls: {
-      rejectUnauthorized: false // Allow self-signed certificates if needed
-    },
-    debug: true, // TEMPORARY: Enable for debugging
-    logger: true // TEMPORARY: Enable for debugging
+      rejectUnauthorized: false
+    }
   });
-  console.log(`✅ Nodemailer initialized with ${process.env.EMAIL_HOST}:${emailPort}`);
-} else {
-  console.error("❌ Email configuration missing (EMAIL_HOST, EMAIL_USER, EMAIL_PASS)");
 }
 
-// Trust the proxy (needed for accurate rate limiting on platforms like Vercel/Render)
 app.set('trust proxy', 1);
 
-// Security Middleware
 app.use((req, res, next) => {
   res.setHeader('X-Content-Type-Options', 'nosniff');
   res.setHeader('X-Frame-Options', 'DENY');
@@ -49,7 +41,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Basic Rate Limiting
 const requestCounts = new Map();
 const RATE_LIMIT_WINDOW = 15 * 60 * 1000; 
 const MAX_REQUESTS = 5; 
@@ -80,7 +71,6 @@ const rateLimiter = (req, res, next) => {
   next();
 };
 
-// CORS configuration
 const allowedOrigins = [
   process.env.FRONTEND_URL?.trim().replace(/\/$/, ""), 
   "https://infinity-consultancy-blm.vercel.app",
@@ -89,32 +79,21 @@ const allowedOrigins = [
   "http://localhost:3000"
 ].filter(Boolean);
 
-console.log("✅ Allowed Origins initialized:", allowedOrigins);
-
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) {
-      console.log("✅ CORS: Allowing request with no origin");
       return callback(null, true);
     }
     
     const normalizedOrigin = origin.trim().replace(/\/$/, "");
-    console.log(`🔍 CORS check: ${normalizedOrigin}`);
-    console.log(`📋 Allowed origins:`, allowedOrigins);
-    
-    // Check if origin matches any allowed origin (with or without trailing slash)
     const isAllowed = allowedOrigins.some(allowed => {
       const normalizedAllowed = allowed.trim().replace(/\/$/, "");
       return normalizedOrigin === normalizedAllowed;
     });
     
     if (isAllowed) {
-      console.log(`✅ CORS: Allowing ${normalizedOrigin}`);
       callback(null, true);
     } else {
-      console.error(`🚫 CORS REJECTED: ${origin} (not in allowed list)`);
-      // Allow the request but log for debugging
       callback(null, true);
     }
   },
@@ -126,17 +105,14 @@ app.use(cors({
 
 app.use(express.json());
 
-// Validation Helper Functions
 const validateName = (name) => /^[a-zA-Z\s]+$/.test(name);
 const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 const validatePhone = (phone) => /^\d{10}$/.test(phone);
 
-// Health Check
 app.get("/health", (req, res) => {
   res.status(200).json({ status: "healthy", timestamp: new Date() });
 });
 
-// Handle CORS preflight requests
 app.options("/send-email", (req, res) => {
   res.header("Access-Control-Allow-Origin", req.headers.origin || "*");
   res.header("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -145,13 +121,7 @@ app.options("/send-email", (req, res) => {
   res.status(200).end();
 });
 
-// POST Route for Contact Form
 app.post("/send-email", rateLimiter, async (req, res) => {
-  console.log(`📩 Inquiry attempt received`);
-  console.log(`📍 Origin: ${req.headers.origin || 'No origin header'}`);
-  console.log(`📦 Request body:`, JSON.stringify(req.body, null, 2));
-  console.log(`📧 Email from: ${req.body?.email || 'No email in body'}`);
-  
   const { firstName, lastName, email, phone, userMessage } = req.body;
 
   if (!firstName || !lastName || !email || !phone || !userMessage) {
@@ -174,36 +144,21 @@ app.post("/send-email", rateLimiter, async (req, res) => {
     return res.status(400).json({ success: false, message: "Message is too short (minimum 10 characters)." });
   }
 
-  // Validate email configuration
   if (!transporter) {
-    console.error("❌ Email transporter not initialized. Check EMAIL_HOST, EMAIL_USER, EMAIL_PASS.");
-    console.error("📋 Current env vars:", {
-      EMAIL_HOST: process.env.EMAIL_HOST ? "✅ Set" : "❌ Missing",
-      EMAIL_USER: process.env.EMAIL_USER ? "✅ Set" : "❌ Missing",
-      EMAIL_PASS: process.env.EMAIL_PASS ? "✅ Set" : "❌ Missing",
-      EMAIL_PORT: process.env.EMAIL_PORT || "587 (default)"
-    });
     return res.status(500).json({ 
       success: false, 
       message: "Server configuration error: Email service not configured." 
     });
   }
 
-  // Validate recipients
   const recipients = [process.env.EMAIL_RECIPIENT_1, process.env.EMAIL_RECIPIENT_2].filter(Boolean);
   if (recipients.length === 0) {
-    console.error("❌ No valid email recipients configured.");
-    console.error("📋 EMAIL_RECIPIENT_1:", process.env.EMAIL_RECIPIENT_1 || "Missing");
-    console.error("📋 EMAIL_RECIPIENT_2:", process.env.EMAIL_RECIPIENT_2 || "Missing");
     return res.status(500).json({ 
       success: false, 
       message: "Server configuration error: No recipients configured." 
     });
   }
-  
-  console.log(`✅ Email configuration validated. Recipients: ${recipients.join(', ')}`);
 
-  // HTML escape function to prevent XSS
   const escapeHtml = (text) => {
     const map = {
       '&': '&amp;',
@@ -215,7 +170,6 @@ app.post("/send-email", rateLimiter, async (req, res) => {
     return text.replace(/[&<>"']/g, m => map[m]);
   };
 
-  // Escape user inputs
   const safeFirstName = escapeHtml(firstName.trim());
   const safeLastName = escapeHtml(lastName.trim());
   const safeEmail = escapeHtml(email.trim());
@@ -223,11 +177,6 @@ app.post("/send-email", rateLimiter, async (req, res) => {
   const safeMessage = escapeHtml(userMessage.trim());
 
   try {
-    console.log(`📧 Attempting to send email to: ${recipients.join(', ')}`);
-    console.log(`📧 From: ${process.env.EMAIL_USER}`);
-    console.log(`📧 Reply-To: ${email}`);
-    
-    // Verify transporter is ready
     if (!transporter) {
       throw new Error("Email transporter not initialized");
     }
@@ -290,24 +239,13 @@ app.post("/send-email", rateLimiter, async (req, res) => {
       `
     };
 
-    // Skip verification to avoid timeout - just try to send directly
-    // Verification can timeout on Render, but sending might still work
-    console.log("📧 Proceeding with email send (skipping verification to avoid timeout)...");
-
-    // Send email with extended timeout for Render
     try {
-      console.log(`📧 Attempting to send email...`);
       const sendEmailPromise = transporter.sendMail(mailOptions);
       const timeoutPromise = new Promise((_, reject) => 
         setTimeout(() => reject(new Error("Email sending timeout after 60 seconds")), 60000)
       );
       
       const info = await Promise.race([sendEmailPromise, timeoutPromise]);
-      
-      console.log(`✅ Email sent successfully via Nodemailer`);
-      console.log(`📬 Message ID: ${info.messageId}`);
-      console.log(`📬 Recipients: ${recipients.join(', ')}`);
-      console.log(`📬 Response: ${info.response}`);
       
       if (!res.headersSent) {
         res.status(200).json({ 
@@ -316,18 +254,10 @@ app.post("/send-email", rateLimiter, async (req, res) => {
         });
       }
     } catch (emailError) {
-      console.error("❌ Error in email sending promise:", emailError);
-      throw emailError; // Re-throw to be caught by outer catch
+      throw emailError;
     }
 
   } catch (err) {
-    console.error("❌ Email sending error:");
-    console.error("Error:", err);
-    console.error("Error Message:", err.message);
-    console.error("Error Code:", err.code);
-    console.error("Error Stack:", err.stack);
-    
-    // More specific error messages
     let errorMessage = "Failed to send email. Please try again later.";
     if (err.code === 'EAUTH') {
       errorMessage = "Email authentication failed. Please check email credentials.";
@@ -339,7 +269,6 @@ app.post("/send-email", rateLimiter, async (req, res) => {
       errorMessage = err.message;
     }
     
-    // Make sure we always send a response
     if (!res.headersSent) {
       res.status(500).json({ 
         success: false, 
@@ -349,27 +278,10 @@ app.post("/send-email", rateLimiter, async (req, res) => {
   }
 });
 
-// Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
   res.status(500).json({ success: false, message: "Internal Server Error" });
 });
 
-// Start Server
 app.listen(PORT, () => {
-  console.log(`
-  🚀 Infinity API is Live!
-  📡 Port: ${PORT}
-  🔗 Status: Ready to receive inquiries
-  `);
-  
-  // Configuration check
-  console.log(`
-  📋 Configuration Check:
-  ${process.env.EMAIL_HOST ? `✅ EMAIL_HOST: ${process.env.EMAIL_HOST}` : '❌ EMAIL_HOST: Missing'}
-  ${process.env.EMAIL_USER ? `✅ EMAIL_USER: ${process.env.EMAIL_USER}` : '❌ EMAIL_USER: Missing'}
-  ${process.env.EMAIL_PASS ? '✅ EMAIL_PASS: Configured' : '❌ EMAIL_PASS: Missing'}
-  ${process.env.EMAIL_RECIPIENT_1 ? `✅ EMAIL_RECIPIENT_1: ${process.env.EMAIL_RECIPIENT_1}` : '❌ EMAIL_RECIPIENT_1: Missing'}
-  ${process.env.EMAIL_RECIPIENT_2 ? `✅ EMAIL_RECIPIENT_2: ${process.env.EMAIL_RECIPIENT_2}` : '⚠️  EMAIL_RECIPIENT_2: Not set (optional)'}
-  `);
+  console.log(`Server running on port ${PORT}`);
 });
