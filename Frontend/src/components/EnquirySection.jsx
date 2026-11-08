@@ -172,7 +172,7 @@ const EnquirySection = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="name@example.com"
+                    placeholder="you@email.com"
                     className="w-full bg-sand/60 border border-lightGray py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all text-sm"
                   />
                 </div>
@@ -183,7 +183,7 @@ const EnquirySection = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="10-digit mobile number"
+                    placeholder="Mobile number"
                     className="w-full bg-sand/60 border border-lightGray py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all text-sm"
                   />
                 </div>

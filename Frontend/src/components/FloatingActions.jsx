@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
@@ -7,8 +7,22 @@ const WHATSAPP_URL =
   "https://wa.me/918460818184?text=" +
   encodeURIComponent("Hello Infinity Consultancy, I would like to enquire about your services.");
 
-const FloatingActions = () => (
-  <div className="fixed bottom-5 right-5 z-[90] flex flex-col gap-3">
+const FloatingActions = () => {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setShow(window.scrollY > 500);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+  <div
+    className={`fixed bottom-5 right-5 z-[90] flex flex-col gap-3 transition-all duration-500 ${
+      show ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6 pointer-events-none"
+    }`}
+  >
     <a
       href="tel:8460818184"
       aria-label="Call Infinity Consultancy"
@@ -26,6 +40,7 @@ const FloatingActions = () => (
       <FontAwesomeIcon icon={faWhatsapp} className="text-3xl" />
     </a>
   </div>
-);
+  );
+};
 
 export default FloatingActions;
