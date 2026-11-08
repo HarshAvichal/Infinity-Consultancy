@@ -17,6 +17,15 @@ const InfinityLogo = ({ className = "" }) => (
     <path
       d={PATH}
       pathLength="100"
+      stroke="#f1e1b3"
+      strokeOpacity="0.35"
+      strokeWidth="9"
+      strokeLinecap="round"
+      className="infinity-trace"
+    />
+    <path
+      d={PATH}
+      pathLength="100"
       stroke="#fff6d8"
       strokeWidth="5"
       strokeLinecap="round"
