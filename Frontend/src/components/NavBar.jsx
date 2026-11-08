@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import Lottie from "react-lottie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faLocationDot, faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import infinityAnimation from "../assets/lottieAnimations/Infinity-animation.json";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -28,15 +26,6 @@ const Navbar = () => {
     };
   }, [menuOpen]);
 
-  const infinityOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: infinityAnimation,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
-
   const navLinks = [
     { name: "Services", href: "#services" },
     { name: "About", href: "#About" },
@@ -56,7 +45,7 @@ const Navbar = () => {
     <>
     <nav 
       className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-        scrolled ? "bg-deepBlue/80 backdrop-blur-md py-2 shadow-lg" : "bg-deepBlue py-4"
+        scrolled ? "bg-deepBlue/85 backdrop-blur-xl py-2 border-b border-lightBlue/15 shadow-lg shadow-black/20" : "bg-transparent py-4"
       }`}
     >
       <div className="relative z-[101] w-full max-w-[1200px] mx-auto flex items-center justify-between px-4 md:px-6">
@@ -67,15 +56,12 @@ const Navbar = () => {
             className="group flex items-center gap-1 md:gap-2 cursor-pointer bg-transparent border-none p-0 text-left"
           >
             <div className="flex flex-col text-left">
-              <span className="text-white text-lg sm:text-xl md:text-2xl font-extrabold tracking-tight group-hover:text-lightBlue transition-colors whitespace-nowrap text-left">
-                INFINITY <span className="text-white group-hover:text-lightBlue">CONSULTANCY</span>
+              <span className="text-white text-lg sm:text-xl md:text-2xl font-semibold tracking-[0.08em] group-hover:text-greenLight transition-colors whitespace-nowrap text-left">
+                INFINITY <span className="text-white/70 group-hover:text-greenLight">CONSULTANCY</span>
               </span>
-              <span className="text-white/70 text-[10px] sm:text-xs md:text-sm font-medium tracking-wide text-left">Since 1989</span>
+              <span className="text-lightBlue text-[10px] sm:text-xs font-medium tracking-[0.3em] uppercase text-left">Since 1989</span>
             </div>
-            {/* Infinity Animation */}
-            <div className="w-12 h-12 sm:w-16 sm:h-16 -ml-1 md:-ml-2">
-              <Lottie options={infinityOptions} />
-            </div>
+            <span className="gold-text font-display text-4xl sm:text-5xl leading-none -ml-0.5" aria-hidden="true">∞</span>
           </button>
         </div>
 
@@ -86,7 +72,7 @@ const Navbar = () => {
               <li key={link.name}>
                 <a
                   href={link.href}
-                  className="text-white font-mullish font-medium hover:text-lightBlue transition-all relative group"
+                  className="text-white/80 text-sm tracking-wide font-medium hover:text-greenLight transition-all relative group"
                 >
                   {link.name}
                   <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-lightBlue transition-all duration-300 group-hover:w-full"></span>
@@ -98,14 +84,14 @@ const Navbar = () => {
           <div className="flex items-center gap-3 ml-4 pl-4 border-l border-white/20">
             <a 
               href="tel:8460818184" 
-              className="bg-white/5 hover:bg-white/10 p-2.5 rounded-xl flex items-center justify-center border border-white/10 transition-all hover:scale-110"
+              className="bg-white/5 hover:bg-lightBlue/15 p-2.5 rounded-full w-10 h-10 flex items-center justify-center border border-white/10 transition-all hover:scale-110"
               title="Call Us"
             >
               <FontAwesomeIcon icon={faPhone} className="text-lightBlue text-sm" />
             </a>
             <a 
               href="#Enquiry" 
-              className="bg-white/5 hover:bg-white/10 p-2.5 rounded-xl flex items-center justify-center border border-white/10 transition-all hover:scale-110"
+              className="bg-white/5 hover:bg-lightBlue/15 p-2.5 rounded-full w-10 h-10 flex items-center justify-center border border-white/10 transition-all hover:scale-110"
               title="Enquiry"
             >
               <FontAwesomeIcon icon={faEnvelope} className="text-greenLight text-sm" />
@@ -114,10 +100,10 @@ const Navbar = () => {
               href="https://maps.google.com/?q=Infinity+Consultancy+Bilimora" 
               target="_blank" 
               rel="noreferrer"
-              className="bg-white/5 hover:bg-white/10 p-2.5 rounded-xl flex items-center justify-center border border-white/10 transition-all hover:scale-110"
+              className="bg-white/5 hover:bg-lightBlue/15 p-2.5 rounded-full w-10 h-10 flex items-center justify-center border border-white/10 transition-all hover:scale-110"
               title="Find Us"
             >
-              <FontAwesomeIcon icon={faLocationDot} className="text-purple-400 text-sm" />
+              <FontAwesomeIcon icon={faLocationDot} className="text-lightBlue text-sm" />
             </a>
           </div>
         </div>
@@ -174,7 +160,7 @@ const Navbar = () => {
               <a
                 key={link.name}
                 href={link.href}
-                className="text-white text-xl font-semibold hover:text-lightBlue transition-colors py-3 border-b border-white/10 last:border-0"
+                className="text-white text-xl font-semibold hover:text-greenLight transition-colors py-3 font-display border-b border-white/10 last:border-0"
                 onClick={() => setMenuOpen(false)}
               >
                 {link.name}
@@ -209,7 +195,7 @@ const Navbar = () => {
                 className="bg-white/5 hover:bg-white/10 p-4 rounded-2xl flex flex-col items-center gap-2 border border-white/10 transition-all active:scale-95"
                 onClick={() => setMenuOpen(false)}
               >
-                <FontAwesomeIcon icon={faLocationDot} className="text-purple-400 text-lg" />
+                <FontAwesomeIcon icon={faLocationDot} className="text-lightBlue text-lg" />
                 <span className="text-white text-[10px] font-bold uppercase">Map</span>
               </a>
             </div>

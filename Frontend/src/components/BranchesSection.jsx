@@ -44,9 +44,9 @@ const BranchesSection = () => {
           <div className="inline-block px-4 py-1 rounded-full bg-lightBlue/10 text-lightBlue text-sm font-bold tracking-wider uppercase mb-2">
             Our Presence
           </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold text-deepBlueHead tracking-tight">
+          <h2 className="text-4xl md:text-6xl font-extrabold text-deepBlueHead tracking-tight">
             Growing <span className="text-lightBlue">Together</span>
-          </h1>
+          </h2>
           <div className="w-20 h-1.5 bg-lightBlue mx-auto rounded-full"></div>
           <p className="text-grayText text-lg max-w-2xl mx-auto mt-4">
             From our roots in Bilimora to serving clients across Gujarat, our expansion reflects our commitment to excellence
@@ -61,9 +61,9 @@ const BranchesSection = () => {
               <div className="text-lightBlue font-black text-3xl md:text-4xl">1989</div>
               <div className="text-grayText text-sm mt-1">Our Beginning</div>
             </div>
-            <div className="flex-1 h-1 bg-gradient-to-r from-lightBlue via-greenLight to-purple-500 mx-4 rounded-full"></div>
+            <div className="flex-1 h-1 bg-gradient-to-r from-lightBlue via-greenLight to-greenLight mx-4 rounded-full"></div>
             <div className="text-center">
-              <div className="text-lightBlue font-black text-3xl md:text-4xl">2025</div>
+              <div className="text-lightBlue font-black text-3xl md:text-4xl">{new Date().getFullYear()}</div>
               <div className="text-grayText text-sm mt-1">Today</div>
             </div>
           </div>
@@ -71,7 +71,7 @@ const BranchesSection = () => {
           {/* Headquarters Card (Bilimora) */}
           <div className="mb-12">
             <div className="flex justify-center">
-              <div className="group bg-gradient-to-br from-lightBlue/10 to-purple-500/10 border-2 border-lightBlue p-6 md:p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 max-w-md w-full">
+              <div className="group bg-gradient-to-br from-lightBlue/10 to-greenLight/20 border-2 border-lightBlue p-6 md:p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 max-w-md w-full">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-12 h-12 bg-lightBlue rounded-xl flex items-center justify-center">
                     <FontAwesomeIcon icon={faBuilding} className="text-white text-xl" />
@@ -100,7 +100,7 @@ const BranchesSection = () => {
               {branches.slice(1).map((branch, index) => (
                 <div
                   key={index}
-                  className="group bg-white border-2 border-gray-100 hover:border-lightBlue p-4 md:p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2"
+                  className="group bg-white border-2 border-lightGray hover:border-lightBlue p-4 md:p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2"
                 >
                   <div className="flex flex-col items-center text-center">
                     <div className="w-10 h-10 md:w-12 md:h-12 bg-lightBlue/10 rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-500">

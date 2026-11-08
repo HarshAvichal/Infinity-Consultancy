@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import galleryImage1 from "../gallery/infinity-gallery.jpeg";
+import img1 from "../gallery/office-modern.jpg";
+import img2 from "../gallery/office-desk-1.jpg";
+import img3 from "../gallery/office-desk-2.jpg";
+import img4 from "../gallery/office-desk-3.jpg";
+import img5 from "../gallery/office-desk-4.jpg";
+import img6 from "../gallery/seminar.jpg";
 
 const GallerySection = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -9,7 +14,12 @@ const GallerySection = () => {
 
   // Gallery images array
   const galleryImages = [
-    { id: 1, src: galleryImage1, title: "Infinity Consultancy", alt: "Infinity Consultancy Office" },
+    { id: 1, src: img1, title: "Nevil Gandhi at work", alt: "Nevil Gandhi working at a desk in a modern office" },
+    { id: 2, src: img2, title: "Client work in progress", alt: "Nevil Gandhi working on a computer at the Infinity Consultancy office" },
+    { id: 3, src: img3, title: "Our Bilimora office", alt: "Nevil Gandhi seated at his desk with client files at the Bilimora office" },
+    { id: 4, src: img4, title: "Accounts and filings", alt: "Nevil Gandhi handling accounts and filings at his desk" },
+    { id: 5, src: img5, title: "Dedicated to every client", alt: "Nevil Gandhi at the Infinity Consultancy office" },
+    { id: 6, src: img6, title: "Knowledge sharing", alt: "Nevil Gandhi speaking at a seminar podium" },
   ];
 
   const openLightbox = (index) => {
@@ -43,16 +53,16 @@ const GallerySection = () => {
   }, [selectedImage, lightboxIndex]);
 
   return (
-    <section id="Gallery" className="bg-[#f8fafc] py-24 overflow-hidden">
+    <section id="Gallery" className="bg-ivory py-24 overflow-hidden">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16 space-y-4">
           <div className="inline-block px-4 py-1 rounded-full bg-lightBlue/10 text-lightBlue text-sm font-bold tracking-wider uppercase mb-2">
             Visual Showcase
           </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold text-deepBlueHead tracking-tight">
+          <h2 className="text-4xl md:text-6xl font-extrabold text-deepBlueHead tracking-tight">
             Our <span className="text-lightBlue">Gallery</span>
-          </h1>
+          </h2>
           <div className="w-20 h-1.5 bg-lightBlue mx-auto rounded-full"></div>
           <p className="text-grayText text-lg max-w-2xl mx-auto mt-4">
             Take a glimpse into our workspace, team, and the professional environment we've created
@@ -61,7 +71,7 @@ const GallerySection = () => {
 
         {/* Gallery Grid */}
         {galleryImages.length > 0 ? (
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             {galleryImages.length === 1 ? (
               // Featured single image layout
               <div className="relative group">
@@ -70,7 +80,7 @@ const GallerySection = () => {
                   onClick={() => openLightbox(0)}
                 >
                   {/* Gradient border effect */}
-                  <div className="absolute -inset-1 bg-gradient-to-r from-lightBlue via-greenLight to-purple-500 rounded-3xl opacity-20 group-hover:opacity-40 blur-lg transition-opacity duration-500"></div>
+                  <div className="absolute -inset-1 bg-gradient-to-r from-lightBlue via-greenLight to-greenLight rounded-3xl opacity-20 group-hover:opacity-40 blur-lg transition-opacity duration-500"></div>
                   
                   {/* Image container */}
                   <div className="relative bg-white p-2 rounded-3xl">
@@ -107,18 +117,18 @@ const GallerySection = () => {
               </div>
             ) : (
               // Grid layout for multiple images
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
                 {galleryImages.map((image, index) => (
                   <div
                     key={image.id}
                     className="group relative overflow-hidden rounded-2xl cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                     onClick={() => openLightbox(index)}
                   >
-                    <div className="aspect-square bg-gray-200 flex items-center justify-center">
+                    <div className="aspect-[3/4] bg-sand flex items-center justify-center">
                       <img
                         src={image.src}
                         alt={image.alt || image.title || `Gallery image ${image.id}`}
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                        className="w-full h-full object-cover object-[50%_35%] transition-transform duration-300 group-hover:scale-110"
                         loading="lazy"
                       />
                     </div>
@@ -144,7 +154,7 @@ const GallerySection = () => {
         ) : (
           // Placeholder when no images
           <div className="text-center py-20">
-            <div className="inline-block p-8 bg-gray-100 rounded-full mb-6">
+            <div className="inline-block p-8 bg-sand rounded-full mb-6">
               <svg
                 className="w-16 h-16 text-gray-400"
                 fill="none"

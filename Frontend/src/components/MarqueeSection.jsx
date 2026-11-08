@@ -25,17 +25,17 @@ const MarqueeSection = () => {
   ];
 
   return (
-    <section className="bg-[#f8fafc] border-y border-gray-100 py-10 overflow-hidden relative z-20 md:shadow-[0_15px_50px_-15px_rgba(0,0,0,0.08)]">
+    <section className="bg-ivory border-y border-lightGray py-10 overflow-hidden relative z-20 md:shadow-[0_15px_50px_-15px_rgba(0,0,0,0.08)]">
       {/* Decorative gradient overlays for smooth fading on edges */}
-      <div className="absolute inset-y-0 left-0 w-16 md:w-48 bg-gradient-to-r from-[#f8fafc] via-[#f8fafc]/80 to-transparent z-10"></div>
-      <div className="absolute inset-y-0 right-0 w-16 md:w-48 bg-gradient-to-l from-[#f8fafc] via-[#f8fafc]/80 to-transparent z-10"></div>
+      <div className="absolute inset-y-0 left-0 w-16 md:w-48 bg-gradient-to-r from-ivory via-ivory/80 to-transparent z-10"></div>
+      <div className="absolute inset-y-0 right-0 w-16 md:w-48 bg-gradient-to-l from-ivory via-ivory/80 to-transparent z-10"></div>
 
       <div className="flex overflow-hidden group">
         <div className="flex items-center space-x-16 animate-marquee-mobile md:animate-marquee whitespace-nowrap py-2">
           {marqueeItems.map((item, index) => (
             <span
               key={index}
-              className="text-slate-500 hover:text-lightBlue transition-all duration-300 font-bold text-sm uppercase tracking-wider flex items-center gap-4"
+              className="text-gray2 hover:text-lightBlue transition-all duration-300 font-bold text-sm uppercase tracking-wider flex items-center gap-4"
             >
               <FontAwesomeIcon icon={faCircleCheck} className="text-lightBlue text-base" />
               {item}
@@ -45,7 +45,7 @@ const MarqueeSection = () => {
           {marqueeItems.map((item, index) => (
             <span
               key={`repeat-${index}`}
-              className="text-slate-500 hover:text-lightBlue transition-all duration-300 font-bold text-sm uppercase tracking-wider flex items-center gap-4"
+              className="text-gray2 hover:text-lightBlue transition-all duration-300 font-bold text-sm uppercase tracking-wider flex items-center gap-4"
             >
               <FontAwesomeIcon icon={faCircleCheck} className="text-lightBlue text-base" />
               {item}
