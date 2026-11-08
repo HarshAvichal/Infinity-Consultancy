@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import InfinityLogo from "./InfinityLogo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faLocationDot, faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
@@ -61,7 +62,7 @@ const Navbar = () => {
               </span>
               <span className="text-lightBlue text-[10px] sm:text-xs font-medium tracking-[0.3em] uppercase text-left">Since 1989</span>
             </div>
-            <span className="gold-text font-display text-4xl sm:text-5xl leading-none -ml-0.5" aria-hidden="true">∞</span>
+            <InfinityLogo className="w-14 h-7 sm:w-[4.5rem] sm:h-9 ml-1" />
           </button>
         </div>
 

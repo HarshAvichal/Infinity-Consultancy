@@ -7,6 +7,7 @@ import AboutSection from "./components/AboutSection";
 import BranchesSection from "./components/BranchesSection";
 import GallerySection from "./components/GallerySection";
 import EnquirySection from "./components/EnquirySection";
+import Reveal from "./components/Reveal";
 import Footer from "./components/Footer";
 import FloatingActions from "./components/FloatingActions";
 
@@ -23,19 +24,19 @@ const App = () => {
       <MarqueeSection />
 
       {/* Services Section */}
-      <ServicesSection />
+      <Reveal><ServicesSection /></Reveal>
 
       {/* About Section */}
-      <AboutSection />
+      <Reveal><AboutSection /></Reveal>
 
       {/* Branches Section */}
-      <BranchesSection />
+      <Reveal><BranchesSection /></Reveal>
 
       {/* Gallery Section */}
-      <GallerySection />
+      <Reveal><GallerySection /></Reveal>
 
       {/* Enquiry Section */}
-      <EnquirySection />
+      <Reveal><EnquirySection /></Reveal>
 
       <Footer />
       <FloatingActions />
