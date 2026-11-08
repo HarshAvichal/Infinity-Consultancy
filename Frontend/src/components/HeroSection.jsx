@@ -17,8 +17,8 @@ const HeroSection = () => {
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-grid opacity-70"></div>
-        <div className="absolute top-[-15%] left-[-10%] w-[55%] h-[55%] bg-lightBlue/10 rounded-full blur-[140px]"></div>
-        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-lightBlue/10 rounded-full blur-[160px]"></div>
+        <div className="absolute top-[-25%] left-[-25%] w-[90%] h-[90%]" style={{ background: "radial-gradient(closest-side, rgba(201,164,92,0.14) 0%, transparent 100%)" }}></div>
+        <div className="absolute bottom-[-30%] right-[-25%] w-[85%] h-[85%]" style={{ background: "radial-gradient(closest-side, rgba(201,164,92,0.12) 0%, transparent 100%)" }}></div>
       </div>
 
       <div className="container mx-auto px-6 md:px-12 grid md:grid-cols-2 gap-12 md:gap-8 items-center z-10 relative">
@@ -83,7 +83,7 @@ const HeroSection = () => {
         <div style={{ animationDelay: "300ms" }} className="fade-up relative flex justify-center md:justify-end">
           <div className="relative w-[82%] max-w-[440px]">
             <div className="absolute -inset-4 rounded-t-[999px] rounded-b-[2rem] border border-lightBlue/30"></div>
-            <div className="absolute -inset-10 bg-lightBlue/10 blur-3xl rounded-full"></div>
+            <div className="absolute -inset-16" style={{ background: "radial-gradient(closest-side, rgba(201,164,92,0.14) 0%, transparent 100%)" }}></div>
             <div className="relative w-full aspect-[4/5] overflow-hidden rounded-t-[999px] rounded-b-[2rem] shadow-2xl shadow-black/50">
               <img
                 src={heroImage}
