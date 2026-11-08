@@ -1,42 +1,43 @@
 import React from "react";
-import Lottie from "react-lottie";
 import { ReactTyped } from "react-typed";
-import taxAnimation from "../assets/lottieAnimations/tax-animation.json";
-import directorImage from "../images/nevil.jpeg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowRight, faShieldHalved } from "@fortawesome/free-solid-svg-icons";
+import heroImage from "../gallery/office-modern.jpg";
+
+const stats = [
+  { value: "36+", label: "Years of Experience" },
+  { value: "1000+", label: "Happy Clients" },
+  { value: "100%", label: "Compliance" },
+];
 
 const HeroSection = () => {
-  const animationOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: taxAnimation,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
-
   return (
-    <section className="relative bg-deepBlue min-h-screen flex items-center justify-center overflow-hidden pt-24 md:pt-20">
-      {/* Background Decorative Elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-lightBlue/10 rounded-full blur-[120px]"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-greenLight/10 rounded-full blur-[120px]"></div>
+    <section className="relative bg-deepBlue min-h-screen flex items-center overflow-hidden pt-28 pb-16 md:pt-24">
+      {/* Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 bg-grid opacity-70"></div>
+        <div className="absolute top-[-15%] left-[-10%] w-[55%] h-[55%] bg-lightBlue/10 rounded-full blur-[140px]"></div>
+        <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-lightBlue/10 rounded-full blur-[160px]"></div>
       </div>
 
-      <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between z-10 space-y-6 md:space-y-12">
-        {/* Left Section */}
-        <div className="w-full md:w-1/2 space-y-4 md:space-y-8 text-center md:text-left">
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6">
-            <div className="inline-block px-4 py-1 rounded-full bg-lightBlue/10 border border-lightBlue/20 text-lightBlue font-semibold text-sm animate-pulse">
-              Trusted Financial Partners
-            </div>
+      <div className="container mx-auto px-6 md:px-12 grid md:grid-cols-2 gap-12 md:gap-8 items-center z-10 relative">
+        {/* Left */}
+        <div className="space-y-6 md:space-y-8 text-center md:text-left">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-lightBlue/30 bg-lightBlue/5 text-greenLight text-xs md:text-sm font-medium tracking-[0.2em] uppercase">
+            <span className="w-1.5 h-1.5 rounded-full bg-lightBlue"></span>
+            Trusted Since 1989
           </div>
-          
-          <h1 className="text-white font-extrabold text-4xl md:text-6xl leading-[1.1] tracking-tight min-h-[140px] md:min-h-0">
-            Expert <span className="text-lightBlue">Tax Guidance</span> <br />
-            <span className="text-3xl md:text-5xl opacity-90">
+
+          <h1
+            aria-label="Expert Tax Guidance for Your Financial Journey"
+            className="text-white text-[2.5rem] leading-[1.1] md:text-6xl lg:text-7xl md:leading-[1.05] min-h-[150px] md:min-h-[230px]"
+          >
+            Expert <span className="gold-text italic">Tax Guidance</span>
+            <br />
+            <span className="text-[1.6rem] md:text-4xl lg:text-5xl text-white/85 font-normal">
               for Your{" "}
               <ReactTyped
-                strings={["Financial Journey", "Business Growth", "Success"]}
+                strings={["Financial Journey", "Business Growth", "Peace of Mind"]}
                 typeSpeed={60}
                 backSpeed={40}
                 loop
@@ -45,93 +46,68 @@ const HeroSection = () => {
             </span>
           </h1>
 
-          <p className="text-grayish/80 text-base md:text-lg lg:text-xl max-w-xl leading-relaxed -mt-2 md:mt-0">
-            From Payments to Payouts, We've Got You Covered. Our comprehensive
-            financial services ensure every aspect of your finances is managed
-            with expertise and precision.
+          <p className="text-white/65 text-base md:text-lg max-w-xl mx-auto md:mx-0 leading-relaxed">
+            From payments to payouts, we've got you covered. Our comprehensive financial
+            services keep every aspect of your finances managed with expertise and precision.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-2 md:pt-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4">
             <a
               href="#Enquiry"
-              className="w-full sm:w-auto bg-lightBlue hover:bg-lightBlue500 text-white px-8 py-4 rounded-lg font-bold text-lg shadow-lg shadow-lightBlue/20 transition-all transform hover:-translate-y-1"
+              className="btn-gold w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full font-semibold transition-all hover:-translate-y-0.5"
             >
               Consult Now
+              <FontAwesomeIcon icon={faArrowRight} className="text-sm" />
             </a>
             <a
               href="#services"
-              className="w-full sm:w-auto border border-white/20 hover:border-white/40 text-white px-8 py-4 rounded-lg font-bold text-lg transition-all backdrop-blur-sm"
+              className="w-full sm:w-auto text-center border border-white/20 hover:border-lightBlue/60 hover:text-greenLight text-white px-8 py-4 rounded-full font-semibold transition-all"
             >
               Our Services
             </a>
           </div>
 
-          {/* Stats or Trust badges */}
-          <div className="pt-4 md:pt-8 flex items-center justify-center md:justify-start gap-6 md:gap-8 opacity-60">
-            <div>
-              <p className="text-white text-2xl font-bold">36+</p>
-              <p className="text-white/60 text-sm">Years Exp.</p>
-            </div>
-            <div className="w-px h-8 bg-white/20"></div>
-            <div>
-              <p className="text-white text-2xl font-bold">1000+</p>
-              <p className="text-white/60 text-sm">Happy Clients</p>
-            </div>
-            <div className="w-px h-8 bg-white/20"></div>
-            <div>
-              <p className="text-white text-2xl font-bold">100%</p>
-              <p className="text-white/60 text-sm">Compliance</p>
-            </div>
+          <div className="pt-4 md:pt-6 grid grid-cols-3 gap-4 max-w-md mx-auto md:mx-0 border-t border-white/10">
+            {stats.map((s) => (
+              <div key={s.label} className="pt-5">
+                <p className="gold-text text-3xl md:text-4xl font-display font-semibold">{s.value}</p>
+                <p className="text-white/50 text-[11px] md:text-xs mt-1 uppercase tracking-wider">{s.label}</p>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Right Section */}
-        <div className="w-full md:w-1/2 flex justify-center relative">
-          <div className="absolute w-[80%] h-[80%] bg-lightBlue/20 rounded-full blur-[100px] animate-pulse"></div>
-          <div className="relative z-10 w-full max-w-[500px]">
-            <Lottie options={animationOptions} />
-            {/* Floating Trust Card - Desktop */}
-            <a 
-              href="#About" 
-              className="absolute -bottom-6 -left-6 md:-left-12 bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-2xl shadow-2xl hidden sm:block animate-bounce-slow hover:bg-white/20 hover:scale-105 transition-all cursor-pointer group/card"
+        {/* Right */}
+        <div className="relative flex justify-center md:justify-end">
+          <div className="relative w-[82%] max-w-[440px]">
+            <div className="absolute -inset-4 rounded-t-[999px] rounded-b-[2rem] border border-lightBlue/30"></div>
+            <div className="absolute -inset-10 bg-lightBlue/10 blur-3xl rounded-full"></div>
+            <img
+              src={heroImage}
+              alt="Nevil Gandhi at work in the Infinity Consultancy office"
+              className="relative w-full aspect-[4/5] object-cover rounded-t-[999px] rounded-b-[2rem] shadow-2xl shadow-black/50"
+            />
+
+            <a
+              href="#About"
+              className="glass absolute -bottom-6 -left-4 md:-left-12 rounded-2xl p-4 pr-6 flex items-center gap-3 hover:scale-105 transition-transform"
             >
-              <div className="flex items-center gap-4">
-                <img src={directorImage} alt="Nevil Gandhi" className="w-12 h-12 rounded-xl object-cover border-2 border-lightBlue/50" />
-                <div>
-                  <p className="text-white font-bold text-sm">Nevil Gandhi</p>
-                  <p className="text-lightBlue text-xs">Director & Advisor</p>
-                </div>
-              </div>
+              <span className="w-11 h-11 rounded-xl bg-lightBlue/15 flex items-center justify-center text-lightBlue">
+                <FontAwesomeIcon icon={faShieldHalved} />
+              </span>
+              <span>
+                <span className="block text-white font-semibold text-sm">Nevil Gandhi</span>
+                <span className="block text-greenLight text-xs">Director &amp; Tax Advisor</span>
+              </span>
             </a>
 
-            {/* Circular Director Badge - Mobile Only */}
-            <a 
-              href="#About" 
-              className="absolute bottom-2 -left-4 sm:hidden bg-white/10 backdrop-blur-xl border-2 border-lightBlue/50 rounded-full shadow-2xl hover:scale-110 transition-all cursor-pointer group/badge"
-              title="Meet our Director"
-            >
-              <div className="relative">
-                <img src={directorImage} alt="Nevil Gandhi" className="w-16 h-16 rounded-full object-cover" />
-                {/* Pulsing ring */}
-                <div className="absolute inset-0 rounded-full bg-lightBlue/20 animate-ping"></div>
-                {/* Badge overlay */}
-                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-greenLight rounded-full border-2 border-deepBlue flex items-center justify-center">
-                  <span className="text-deepBlue text-[10px] font-black">✓</span>
-                </div>
-              </div>
-            </a>
+            <div className="glass absolute -top-4 -right-2 md:-right-8 rounded-2xl px-5 py-3 text-center">
+              <p className="gold-text font-display text-2xl font-semibold leading-none">1989</p>
+              <p className="text-white/60 text-[10px] uppercase tracking-widest mt-1">Established</p>
+            </div>
           </div>
         </div>
       </div>
-      <style dangerouslySetInnerHTML={{ __html: `
-        @keyframes bounce-slow {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-        .animate-bounce-slow {
-          animation: bounce-slow 4s ease-in-out infinite;
-        }
-      `}} />
     </section>
   );
 };

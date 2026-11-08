@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import accounting from "../images/accounting.png";
-import tax from "../images/Harsh.png";
+import tax from "../images/tax.png";
 import gst from "../images/GST.png";
 import health from "../images/Health.png";
 import lic from "../images/Lic.png";
@@ -15,15 +15,15 @@ const services = [
     title: "Accounting Services",
     description: "Comprehensive financial management ensuring accurate records and regulatory compliance.",
     image: accounting,
-    color: "bg-blue-500/10",
-    textColor: "text-blue-600"
+    color: "bg-lightBlue/10",
+    textColor: "text-goldDeep"
   },
   {
     title: "GST Services",
     description: "Expert assistance in GST registration, return filing, and ensuring complete compliance.",
     image: gst,
-    color: "bg-green-500/10",
-    textColor: "text-green-600"
+    color: "bg-lightBlue/10",
+    textColor: "text-goldDeep"
   },
   {
     title: "Tax Services",
@@ -36,8 +36,8 @@ const services = [
     title: "Health Insurance",
     description: "Securing your future with the best health insurance plans tailored for your needs.",
     image: health,
-    color: "bg-purple-500/10",
-    textColor: "text-purple-600"
+    color: "bg-lightBlue/10",
+    textColor: "text-goldDeep"
   },
   {
     title: "Life Insurance",
@@ -50,8 +50,8 @@ const services = [
     title: "Software Services",
     description: "Modern digital solutions and software implementation for business efficiency.",
     image: software,
-    color: "bg-indigo-500/10",
-    textColor: "text-indigo-600"
+    color: "bg-lightBlue/10",
+    textColor: "text-goldDeep"
   }
 ];
 
@@ -98,17 +98,17 @@ const ServicesSection = () => {
   }, [isModalOpen]);
 
   return (
-    <section id="services" className="bg-gray-50 py-12 md:py-24 relative overflow-hidden">
+    <section id="services" className="bg-sand/60 py-12 md:py-24 relative overflow-hidden">
       {/* Background patterns */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-lightBlue/5 rounded-full -mr-32 -mt-32 blur-3xl"></div>
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-greenLight/5 rounded-full -ml-32 -mb-32 blur-3xl"></div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-10 md:mb-16 space-y-4">
-          <h2 className="text-lightBlue font-bold tracking-widest text-xs md:text-sm uppercase">Our Expertise</h2>
-          <h1 className="text-3xl md:text-5xl font-extrabold text-deepBlueHead">
+          <p className="text-lightBlue font-bold tracking-widest text-xs md:text-sm uppercase">Our Expertise</p>
+          <h2 className="text-3xl md:text-5xl font-extrabold text-deepBlueHead">
             Solutions for <span className="text-lightBlue">Every Business</span> Need
-          </h1>
+          </h2>
           <p className="text-grayText text-sm md:text-lg leading-relaxed">
             We provide a wide range of professional services to help you manage your finances, 
             ensure compliance, and grow your business with confidence.
@@ -119,7 +119,7 @@ const ServicesSection = () => {
           {services.map((service, index) => (
             <div 
               key={index}
-              className="group bg-white p-4 md:p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 flex flex-col items-center text-center"
+              className="group bg-white p-4 md:p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-lightGray flex flex-col items-center text-center"
             >
               <div className={`w-16 h-16 md:w-24 md:h-24 ${service.color} rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-500 p-2 md:p-4`}>
                 <img

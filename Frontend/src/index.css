@@ -2,6 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  body { @apply font-sans text-gray2 antialiased bg-ivory; }
+  ::selection { background: #c9a45c; color: #070c1b; }
+}
+
+h1, h2, h3 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em;
+}
+
+.gold-text {
+  background: linear-gradient(120deg, #e9d29b 0%, #c9a45c 45%, #f1e1b3 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #e3c887 0%, #c9a45c 50%, #b08a3e 100%);
+  color: #070c1b;
+  box-shadow: 0 10px 30px -10px rgba(201, 164, 92, 0.55);
+}
+.btn-gold:hover { filter: brightness(1.08); }
+
+.glass {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border: 1px solid rgba(201, 164, 92, 0.25);
+  backdrop-filter: blur(18px);
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(rgba(201,164,92,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,164,92,0.06) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
 html,
 body,
 #root {
@@ -71,3 +110,5 @@ body,
 .animate-zoom-6 {
   animation: zoom 3s infinite ease-in-out 1.5s;
 }
+
+:root { --swiper-theme-color: #c9a45c; }

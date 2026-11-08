@@ -5,12 +5,14 @@ import MarqueeSection from "./components/MarqueeSection";
 import ServicesSection from "./components/ServicesSection";
 import AboutSection from "./components/AboutSection";
 import BranchesSection from "./components/BranchesSection";
-// import GallerySection from "./components/GallerySection";
+import GallerySection from "./components/GallerySection";
 import EnquirySection from "./components/EnquirySection";
+import Footer from "./components/Footer";
+import FloatingActions from "./components/FloatingActions";
 
 const App = () => {
   return (
-    <div className="bg-gray-100">
+    <div className="bg-ivory">
       {/* Navbar */}
       <NavBar />
 
@@ -30,10 +32,13 @@ const App = () => {
       <BranchesSection />
 
       {/* Gallery Section */}
-      {/* <GallerySection /> */}
+      <GallerySection />
 
       {/* Enquiry Section */}
       <EnquirySection />
+
+      <Footer />
+      <FloatingActions />
     </div>
   );
 };

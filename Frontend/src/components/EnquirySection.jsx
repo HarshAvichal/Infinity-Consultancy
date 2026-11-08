@@ -117,7 +117,7 @@ const EnquirySection = () => {
   };
 
   return (
-    <section id="Enquiry" className="bg-[#0f172a] py-24 relative overflow-hidden">
+    <section id="Enquiry" className="bg-deepBlue py-24 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-10 pointer-events-none">
         <div className="absolute top-0 left-0 w-96 h-96 bg-lightBlue rounded-full blur-[120px]"></div>
@@ -126,10 +126,10 @@ const EnquirySection = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="text-center mb-16 space-y-4">
-          <h2 className="text-lightBlue font-bold tracking-widest text-sm uppercase">Get In Touch</h2>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white">
+          <p className="text-lightBlue font-bold tracking-widest text-sm uppercase">Get In Touch</p>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-white">
             Ready to <span className="text-lightBlue">Start Your Journey?</span>
-          </h1>
+          </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
             Fill out the form below and our team will get back to you within 24 hours.
           </p>
@@ -147,8 +147,8 @@ const EnquirySection = () => {
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    placeholder="Harsh"
-                    className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all text-sm"
+                    placeholder="Rajesh"
+                    className="w-full bg-sand/60 border border-lightGray py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all text-sm"
                   />
                 </div>
                 <div className="space-y-2">
@@ -158,8 +158,8 @@ const EnquirySection = () => {
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    placeholder="Avichal"
-                    className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all text-sm"
+                    placeholder="Shah"
+                    className="w-full bg-sand/60 border border-lightGray py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all text-sm"
                   />
                 </div>
               </div>
@@ -172,8 +172,8 @@ const EnquirySection = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="harsh@gmail.com"
-                    className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all text-sm"
+                    placeholder="name@example.com"
+                    className="w-full bg-sand/60 border border-lightGray py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all text-sm"
                   />
                 </div>
                 <div className="space-y-2">
@@ -183,8 +183,8 @@ const EnquirySection = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    placeholder="your phone number"
-                    className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all text-sm"
+                    placeholder="10-digit mobile number"
+                    className="w-full bg-sand/60 border border-lightGray py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all text-sm"
                   />
                 </div>
               </div>
@@ -197,7 +197,7 @@ const EnquirySection = () => {
                   value={formData.userMessage}
                   onChange={handleChange}
                   placeholder="I need help with my GST registration or Tax return..."
-                  className="w-full bg-gray-50 border border-gray-200 py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all resize-none text-sm"
+                  className="w-full bg-sand/60 border border-lightGray py-3 px-4 rounded-xl focus:ring-2 focus:ring-lightBlue focus:border-transparent outline-none transition-all resize-none text-sm"
                 ></textarea>
               </div>
 
@@ -231,7 +231,7 @@ const EnquirySection = () => {
                 <span className="text-white text-[10px] font-bold uppercase">Mail</span>
               </a>
               <a href="https://maps.google.com/?q=Infinity+Consultancy+Bilimora" target="_blank" rel="noreferrer" className="bg-white/5 p-4 rounded-2xl flex flex-col items-center gap-2 border border-white/10">
-                <FontAwesomeIcon icon={faLocationDot} className="text-purple-400" />
+                <FontAwesomeIcon icon={faLocationDot} className="text-lightBlue" />
                 <span className="text-white text-[10px] font-bold uppercase">Map</span>
               </a>
             </div>
@@ -267,7 +267,7 @@ const EnquirySection = () => {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-10 h-10 md:w-12 md:h-12 bg-purple-500/20 rounded-xl flex items-center justify-center text-purple-400 shrink-0">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-lightBlue/20 rounded-xl flex items-center justify-center text-lightBlue shrink-0">
                   <FontAwesomeIcon icon={faLocationDot} />
                 </div>
                 <div>
