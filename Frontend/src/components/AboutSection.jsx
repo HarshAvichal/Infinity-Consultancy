@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 // Import animations and images
-import directorImage from "../images/nevil.jpeg";
+import directorImage from "../gallery/office-desk-2.jpg";
 
 const AboutSection = () => {
   const prevRef = useRef(null);
@@ -142,7 +142,7 @@ const AboutSection = () => {
                   
                   <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-2 md:pt-4">
                     <div className="flex items-center gap-2 bg-sand px-3 md:px-4 py-1.5 md:py-2 rounded-full border border-lightBlue/20">
-                      <span className="w-2 h-2 rounded-full bg-sand0 animate-pulse"></span>
+                      <span className="w-2 h-2 rounded-full bg-lightBlue animate-pulse"></span>
                       <span className="text-goldDeep font-bold text-xs md:text-sm">36+ Years Experience</span>
                     </div>
                   </div>
@@ -151,11 +151,13 @@ const AboutSection = () => {
                 <div className="lg:w-1/2 relative w-full md:w-auto">
                   <div className="absolute -inset-4 bg-gradient-to-tr from-lightBlue to-greenLight rounded-[3rem] opacity-10 blur-2xl"></div>
                   <div className="relative z-10">
-                    <img
-                      src={directorImage}
-                      alt="Nevil Gandhi"
-                      className="rounded-[2rem] md:rounded-[2.5rem] shadow-2xl w-full max-w-[280px] md:max-w-[420px] mx-auto border-4 md:border-8 border-white object-cover aspect-[4/5]"
-                    />
+                    <div className="rounded-[2rem] md:rounded-[2.5rem] shadow-2xl w-full max-w-[280px] md:max-w-[420px] mx-auto border-4 md:border-8 border-white overflow-hidden aspect-[4/5]">
+                      <img
+                        src={directorImage}
+                        alt="Nevil Gandhi at his desk in the Infinity Consultancy office"
+                        className="w-full h-full object-cover object-[50%_50%] scale-[1.9] origin-[52%_52%]"
+                      />
+                    </div>
                     <div className="absolute -bottom-6 -right-6 md:-right-10 bg-white p-6 rounded-3xl shadow-xl border border-lightGray hidden md:block">
                       <p className="font-black text-2xl text-deepBlueHead">Director</p>
                       <p className="text-lightBlue font-bold">@InfinityConsultancy</p>
